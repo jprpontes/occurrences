@@ -19,4 +19,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/home', ['as' => 'home',    'uses' => 'HomeController@index']);
+
+    Route::group(['as' => 'sectors.', 'prefix' => 'sectors'], function () {
+        Route::get('/', ['as' => 'index',    'uses' => 'SectorController@index']);
+    });
+
+    Route::group(['as' => 'steps.', 'prefix' => 'steps'], function () {
+        Route::get('/', ['as' => 'index',    'uses' => 'StepController@index']);
+    });
+});
