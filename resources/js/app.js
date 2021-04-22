@@ -22,6 +22,13 @@ window.Vue = require('vue');
 Vue.component('Home', require('./components/Home.vue').default);
 Vue.component('Sectors', require('./components/Sectors.vue').default);
 Vue.component('Steps', require('./components/Steps.vue').default);
+Vue.component('StepColumn', require('./components/StepColumn.vue').default);
+Vue.component('OcurrenceCard', require('./components/OcurrenceCard.vue').default);
+Vue.component('SectorList', require('./components/SectorList.vue').default);
+Vue.component('SectorListItem', require('./components/SectorListItem.vue').default);
+Vue.component('StepList', require('./components/StepList.vue').default);
+Vue.component('StepListItem', require('./components/StepListItem.vue').default);
+Vue.component('ModalOcurrenceInvoice', require('./components/ModalOcurrenceInvoice.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

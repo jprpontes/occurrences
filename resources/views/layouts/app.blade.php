@@ -24,7 +24,7 @@
         @auth
             <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
                 <div class="container">
-                    <a class="navbar-brand" href="{{ route('home') }}">
+                    <a class="navbar-brand text-uppercase" href="{{ route('home') }}">
                         {{ config('app.name', 'Laravel') }}
                     </a>
                     <div class="d-flex">
@@ -48,23 +48,22 @@
                                     <a class="nav-link active" aria-current="page" href="{{ route('sectors.index') }}">Setores</a>
                                 </li>
 
-                                <!-- Authentication Links -->
                                 <li class="nav-item dropdown">
-                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                         {{ Auth::user()->name }}
                                     </a>
 
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();
-                                                        document.getElementById('logout-form').submit();">
-                                            {{ __('Logout') }}
-                                        </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                                        <li><a class="dropdown-item" href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                                            document.getElementById('logout-form').submit();">
+                                                {{ __('Logout') }}
+                                            </a></li>
+                                    </ul>
 
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                            @csrf
-                                        </form>
-                                    </div>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
                                 </li>
                             </ul>
                         </div>

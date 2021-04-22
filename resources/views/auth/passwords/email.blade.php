@@ -3,7 +3,7 @@
 @section('content')
 <div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col" style="max-width: 400px">
+        <div class="col" style="max-width: 350px">
             <div class="col-12 d-flex justify-content-center my-4">
                 <h1>{{ __('REDEFINIR SENHA') }}</h1>
             </div>
