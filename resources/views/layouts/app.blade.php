@@ -48,17 +48,21 @@
                                     <a class="nav-link active" aria-current="page" href="{{ route('sectors.index') }}">Setores</a>
                                 </li>
 
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{ Auth::user()->name }}
+                                <li class="nav-item dropdown d-flex align-items-center ms-3">
+                                    <a class="nav-link dropdown-toggle d-flex align-items-center p-0" href="#" role="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <Avatar username="{{ Auth::user()->name }}" :size="30" class="bg-gray-200 border-gray-600 text-gray-600 border"></Avatar>
+
+                                        <span class="ms-1">{{ Auth::user()->name }}</span>
                                     </a>
 
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="dropdown-item" href="{{ route('logout') }}"
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                             document.getElementById('logout-form').submit();">
                                                 {{ __('Logout') }}
-                                            </a></li>
+                                            </a>
+                                        </li>
                                     </ul>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
