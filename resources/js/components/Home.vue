@@ -24,8 +24,6 @@
                 <StepColumn />
             </div>
         </div>
-
-        <ModalOcurrenceInvoice />
     </div>
 </template>
 

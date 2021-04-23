@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="card card-hover" @click="openModalOcurrence">
         <div class="card-body">
             <div class="row">
                 <div class="col">
@@ -49,6 +49,8 @@
                 </div>
             </div>
         </div>
+
+        <ModalOcurrenceInvoice v-if="modalOcurrenceShow" @modal-closed="modalOcurrenceShow = false" />
     </div>
 </template>
 
@@ -58,8 +60,24 @@
         components: {
             Avatar
         },
+        data() {
+            return {
+                modalOcurrenceShow: false
+            }
+        },
         mounted() {
 
+        },
+        methods: {
+            openModalOcurrence() {
+                this.modalOcurrenceShow = true;
+            }
         }
     }
 </script>
+
+<style scoped>
+    .card-hover {
+        cursor: pointer;
+    }
+</style>

@@ -30,6 +30,7 @@ Vue.component('StepList', require('./components/StepList.vue').default);
 Vue.component('StepListItem', require('./components/StepListItem.vue').default);
 Vue.component('ModalOcurrenceInvoice', require('./components/ModalOcurrenceInvoice.vue').default);
 Vue.component('Avatar', require('vue-avatar').default);
+Vue.component('TimelineOcurrenceInvoice', require('./components/TimelineOcurrenceInvoice.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
