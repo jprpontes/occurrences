@@ -22,7 +22,7 @@
                                 <span>Histórico</span>
                             </div>
                             <div class="col-auto">
-                                <button class="btn btn-primary btn-sm px-2 py-0">+</button>
+                                <button class="btn btn-primary btn-sm" @click="$emit('open-modal-task-new-edit')">Nova tarefa</button>
                             </div>
                         </div>
 
@@ -34,7 +34,7 @@
 
                         <div class="row">
                             <div class="col">
-                                <TimelineOcurrenceInvoice />
+                                <TimelineOcurrence />
                             </div>
                         </div>
                     </div>
@@ -81,9 +81,18 @@
                                 <label for="open-ocurrences-list" class="form-label mb-0 fs-8">Ocorrências abertas</label>
                                 <div class="card" id="open-ocurrences-list">
                                     <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">An item</li>
-                                        <li class="list-group-item">A second item</li>
-                                        <li class="list-group-item">A third item</li>
+                                        <li class="list-group-item d-flex">
+                                            <span class="flex-fill text-center">1</span>
+                                            <span class="flex-fill text-center">$10,00</span>
+                                        </li>
+                                        <li class="list-group-item d-flex">
+                                            <span class="flex-fill text-center">1</span>
+                                            <span class="flex-fill text-center">$10,00</span>
+                                        </li>
+                                        <li class="list-group-item d-flex">
+                                            <span class="flex-fill text-center">1</span>
+                                            <span class="flex-fill text-center">$10,00</span>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -98,9 +107,7 @@
 </template>
 
 <script>
-import TimelineOcurrenceInvoice from './TimelineOcurrenceInvoice.vue';
     export default {
-    components: { TimelineOcurrenceInvoice },
         mounted() {
             $("#modal-ocurrence-invoice").on('hidden.bs.modal', (event) => {
                 this.$emit('modal-closed');

@@ -5,7 +5,7 @@
                 <h1 class="m-0">ETAPAS</h1>
             </div>
             <div class="col-auto d-flex align-items-center mb-3">
-                <button class="btn btn-primary">Novo</button>
+                <button class="btn btn-primary" @click="modalStepNewEdit = true">Novo</button>
             </div>
         </div>
 
@@ -19,11 +19,17 @@
         </div>
 
         <StepList />
+        <ModalStepNewEdit v-if="modalStepNewEdit" @modal-closed="modalStepNewEdit = false" />
     </div>
 </template>
 
 <script>
     export default {
+        data() {
+            return {
+                modalStepNewEdit: false
+            }
+        },
         mounted() {
 
         }

@@ -1,5 +1,5 @@
 <template>
-    <div class="card card-hover" @click="openModalOcurrence">
+    <div class="card card-hover" @click="modalOcurrenceShow = true">
         <div class="card-body">
             <div class="row">
                 <div class="col">
@@ -50,7 +50,8 @@
             </div>
         </div>
 
-        <ModalOcurrenceInvoice v-if="modalOcurrenceShow" @modal-closed="modalOcurrenceShow = false" />
+        <ModalOcurrenceInvoice v-if="modalOcurrenceShow" @modal-closed="modalOcurrenceClosed" @open-modal-task-new-edit="modalTaskNewEdit = true" :style="{'z-index': modalTaskNewEdit ? 1 : 1060}" ref="modalOcurrenceInvoice" />
+        <ModalTaskNewEdit v-if="modalTaskNewEdit" @modal-closed="modalTaskNewEditClosed" />
     </div>
 </template>
 
@@ -62,15 +63,20 @@
         },
         data() {
             return {
-                modalOcurrenceShow: false
+                modalOcurrenceShow: false,
+                modalTaskNewEdit: false
             }
         },
         mounted() {
 
         },
         methods: {
-            openModalOcurrence() {
-                this.modalOcurrenceShow = true;
+            modalOcurrenceClosed() {
+                this.modalOcurrenceShow = false;
+            },
+            modalTaskNewEditClosed() {
+                this.modalTaskNewEdit = false;
+                this.$refs.modalOcurrenceInvoice.$el.focus();
             }
         }
     }

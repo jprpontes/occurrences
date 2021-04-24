@@ -5,7 +5,7 @@
                 <h1 class="m-0">SETORES</h1>
             </div>
             <div class="col-auto d-flex align-items-center mb-3">
-                <button class="btn btn-primary">Novo</button>
+                <button class="btn btn-primary" @click="modalSectorNewEdit = true">Novo</button>
             </div>
         </div>
 
@@ -19,11 +19,17 @@
         </div>
 
         <SectorList />
+        <ModalSectorNewEdit v-if="modalSectorNewEdit" @modal-closed="modalSectorNewEdit = false" />
     </div>
 </template>
 
 <script>
     export default {
+        data() {
+            return {
+                modalSectorNewEdit: false
+            }
+        },
         mounted() {
 
         }

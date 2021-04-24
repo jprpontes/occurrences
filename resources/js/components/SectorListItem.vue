@@ -7,17 +7,24 @@
                 </div>
 
                 <div class="col-auto d-flex align-items-center">
-                    <button class="btn btn-sm btn-primary">Editar</button>
+                    <button class="btn btn-sm btn-primary" @click="modalSectorNewEdit = true">Editar</button>
                 </div>
             </div>
         </div>
+
+        <ModalSectorNewEdit v-if="modalSectorNewEdit" @modal-closed="modalSectorNewEdit = false" />
     </div>
 </template>
 
 <script>
     export default {
+        data() {
+            return {
+                modalSectorNewEdit: false
+            }
+        },
         mounted() {
 
-        }
+        },
     }
 </script>

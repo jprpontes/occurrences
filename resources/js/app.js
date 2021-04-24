@@ -30,7 +30,12 @@ Vue.component('StepList', require('./components/StepList.vue').default);
 Vue.component('StepListItem', require('./components/StepListItem.vue').default);
 Vue.component('ModalOcurrenceInvoice', require('./components/ModalOcurrenceInvoice.vue').default);
 Vue.component('Avatar', require('vue-avatar').default);
-Vue.component('TimelineOcurrenceInvoice', require('./components/TimelineOcurrenceInvoice.vue').default);
+Vue.component('TimelineOcurrence', require('./components/TimelineOcurrence.vue').default);
+Vue.component('TimelineItemDefault', require('./components/TimelineItemDefault.vue').default);
+Vue.component('TimelineItemTask', require('./components/TimelineItemTask.vue').default);
+Vue.component('ModalSectorNewEdit', require('./components/ModalSectorNewEdit.vue').default);
+Vue.component('ModalStepNewEdit', require('./components/ModalStepNewEdit.vue').default);
+Vue.component('ModalTaskNewEdit', require('./components/ModalTaskNewEdit.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
