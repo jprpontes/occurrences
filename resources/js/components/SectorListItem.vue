@@ -7,6 +7,10 @@
                 </div>
 
                 <div class="col-auto d-flex align-items-center">
+                    <button class="btn btn-sm btn-outline-primary">Atividades</button>
+                </div>
+
+                <div class="col-auto d-flex align-items-center">
                     <button class="btn btn-sm btn-primary" @click="modalSectorNewEdit = true">Editar</button>
                 </div>
             </div>
