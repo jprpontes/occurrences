@@ -17,10 +17,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3" style="height: calc(100vh - 110px);">
+            <div class="col-md-3" style="height: calc(100vh - 160px);">
                 <StepColumn />
             </div>
-            <div class="col-md-3" style="height: calc(100vh - 110px);">
+            <div class="col-md-3" style="height: calc(100vh - 160px);">
                 <StepColumn />
             </div>
         </div>
