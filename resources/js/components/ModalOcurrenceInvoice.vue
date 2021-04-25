@@ -30,7 +30,7 @@
 
                         <div class="row">
                             <div class="col">
-                                <TimelineOcurrence />
+                                <TimelineOcurrence @open-modal-task-new-edit="$emit('open-modal-task-new-edit')" />
                             </div>
                         </div>
                     </div>

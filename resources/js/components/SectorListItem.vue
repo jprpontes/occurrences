@@ -7,7 +7,7 @@
                 </div>
 
                 <div class="col-auto d-flex align-items-center">
-                    <button class="btn btn-sm btn-outline-primary">Atividades</button>
+                    <button class="btn btn-sm btn-outline-primary" @click="modalActivities = true">Atividades</button>
                 </div>
 
                 <div class="col-auto d-flex align-items-center">
@@ -17,6 +17,8 @@
         </div>
 
         <ModalSectorNewEdit v-if="modalSectorNewEdit" @modal-closed="modalSectorNewEdit = false" />
+        <ModalActivities v-if="modalActivities" @modal-closed="modalActivities = false" @open-modal-activity-new-edit="modalActivityNewEdit = true" :style="{'z-index': modalActivityNewEdit ? 1 : 1060}" ref="modalActivities" />
+        <ModalActivityNewEdit v-if="modalActivityNewEdit" @modal-closed="modalActivityNewEditClosed" />
     </div>
 </template>
 
@@ -24,11 +26,19 @@
     export default {
         data() {
             return {
-                modalSectorNewEdit: false
+                modalSectorNewEdit: false,
+                modalActivities: false,
+                modalActivityNewEdit: false,
             }
         },
         mounted() {
 
         },
+        methods: {
+            modalActivityNewEditClosed() {
+                this.modalActivityNewEdit = false;
+                this.$refs.modalActivities.$el.focus();
+            }
+        }
     }
 </script>

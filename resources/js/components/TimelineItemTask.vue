@@ -12,7 +12,7 @@
             <span class="text-gray-600 fw-bold">{{ data.event }}</span>
             <span>{{ data.description }}</span>
             <div class="d-flex">
-                <button class="btn btn-outline-primary btn-sm btn-icon mt-3"><i class="mdi mdi-pencil"></i>Editar</button>
+                <button class="btn btn-outline-primary btn-sm btn-icon mt-3" @click="$emit('open-modal-task-new-edit')"><i class="mdi mdi-pencil"></i>Editar</button>
             </div>
         </div>
     </div>

@@ -36,6 +36,10 @@ Vue.component('TimelineItemTask', require('./components/TimelineItemTask.vue').d
 Vue.component('ModalSectorNewEdit', require('./components/ModalSectorNewEdit.vue').default);
 Vue.component('ModalStepNewEdit', require('./components/ModalStepNewEdit.vue').default);
 Vue.component('ModalTaskNewEdit', require('./components/ModalTaskNewEdit.vue').default);
+Vue.component('ModalActivityNewEdit', require('./components/ModalActivityNewEdit.vue').default);
+Vue.component('ModalActivities', require('./components/ModalActivities.vue').default);
+Vue.component('ActivityList', require('./components/ActivityList.vue').default);
+Vue.component('ActivityListItem', require('./components/ActivityListItem.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

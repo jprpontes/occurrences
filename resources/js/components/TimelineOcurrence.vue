@@ -1,7 +1,8 @@
 <template>
     <div class="row">
         <div class="col-12" v-for="(item, index) in timeline" :key="index">
-            <component v-bind:is="componentName(item.type)" :data="item.data"></component>
+            <TimelineItemDefault v-if="item.type === 'DEFAULT'" :data="item.data" />
+            <TimelineItemTask v-else-if="item.type === 'TASK'" :data="item.data" @open-modal-task-new-edit="$emit('open-modal-task-new-edit')" />
         </div>
     </div>
 </template>
