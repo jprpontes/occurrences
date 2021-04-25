@@ -9,9 +9,9 @@
             </div>
             <div class="col-12 col-md-4">
                 <div class="input-group mb-3">
-                    <span class="input-group-text">Setor</span>
+                    <span class="input-group-text"><i class="mdi mdi-account-group"></i></span>
                     <select class="form-control">
-                        <option value="1" selected>Todos</option>
+                        <option value="1" selected>Todos os setores</option>
                     </select>
                 </div>
             </div>

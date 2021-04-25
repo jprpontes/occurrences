@@ -1,5 +1,5 @@
 <template>
-    <div class="card card-hover" @click="modalOcurrenceShow = true">
+    <div class="card card-hover shadow-sm" @click="modalOcurrenceShow = true">
         <div class="card-body">
             <div class="row">
                 <div class="col">
