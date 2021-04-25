@@ -45,7 +45,11 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link nav-link-icon active" aria-current="page" href="{{ route('sectors.index') }}"><i class="mdi mdi-account-group"></i>Setores</a>
+                                    <a class="nav-link nav-link-icon active" aria-current="page" href="{{ route('sectors.index') }}"><i class="mdi mdi-family-tree"></i>Setores</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link nav-link-icon active" aria-current="page" href="{{ route('users.index') }}"><i class="mdi mdi-account-group"></i>Usuários</a>
                                 </li>
 
                                 <li class="nav-item dropdown d-flex align-items-center ms-3">

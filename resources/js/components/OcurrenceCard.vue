@@ -56,11 +56,7 @@
 </template>
 
 <script>
-    import Avatar from 'vue-avatar';
     export default {
-        components: {
-            Avatar
-        },
         data() {
             return {
                 modalOcurrenceShow: false,

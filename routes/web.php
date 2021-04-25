@@ -29,4 +29,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['as' => 'steps.', 'prefix' => 'steps'], function () {
         Route::get('/', ['as' => 'index',    'uses' => 'StepController@index']);
     });
+
+    Route::group(['as' => 'users.', 'prefix' => 'users'], function () {
+        Route::get('/', ['as' => 'index',    'uses' => 'UserController@index']);
+    });
 });

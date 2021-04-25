@@ -40,6 +40,10 @@ Vue.component('ModalActivityNewEdit', require('./components/ModalActivityNewEdit
 Vue.component('ModalActivities', require('./components/ModalActivities.vue').default);
 Vue.component('ActivityList', require('./components/ActivityList.vue').default);
 Vue.component('ActivityListItem', require('./components/ActivityListItem.vue').default);
+Vue.component('Users', require('./components/Users.vue').default);
+Vue.component('UserList', require('./components/UserList.vue').default);
+Vue.component('UserListItem', require('./components/UserListItem.vue').default);
+Vue.component('ModalUserNewEdit', require('./components/ModalUserNewEdit.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
