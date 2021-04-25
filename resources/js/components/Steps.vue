@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col d-flex align-items-center mb-3">
-                <h1 class="m-0">ETAPAS</h1>
+                <h1 class="m-0 d-flex align-items-center"><i class="mdi mdi-ray-start-vertex-end pe-2"></i>Etapas</h1>
             </div>
             <div class="col-auto d-flex align-items-center mb-3">
                 <button class="btn btn-primary btn-icon" @click="modalStepNewEdit = true"><i class="mdi mdi-plus"></i>Novo</button>

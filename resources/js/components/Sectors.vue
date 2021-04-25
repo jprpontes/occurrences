@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col d-flex align-items-center mb-3">
-                <h1 class="m-0">SETORES</h1>
+                                <h1 class="m-0 d-flex align-items-center"><i class="mdi mdi-account-group pe-2"></i>Setores</h1>
             </div>
             <div class="col-auto d-flex align-items-center mb-3">
                 <button class="btn btn-primary btn-icon" @click="modalSectorNewEdit = true"><i class="mdi mdi-plus"></i>Novo</button>
