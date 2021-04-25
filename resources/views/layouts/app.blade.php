@@ -41,11 +41,11 @@
                             <!-- Right Side Of Navbar -->
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="{{ route('steps.index') }}">Etapas</a>
+                                    <a class="nav-link nav-link-icon active" aria-current="page" href="{{ route('steps.index') }}"><i class="mdi mdi-ray-start-vertex-end"></i>Etapas</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="{{ route('sectors.index') }}">Setores</a>
+                                    <a class="nav-link nav-link-icon active" aria-current="page" href="{{ route('sectors.index') }}"><i class="mdi mdi-account-group"></i>Setores</a>
                                 </li>
 
                                 <li class="nav-item dropdown d-flex align-items-center ms-3">
@@ -57,10 +57,11 @@
 
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
                                         <li>
-                                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                            <a class="dropdown-item dropdown-item-icon" href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                             document.getElementById('logout-form').submit();">
-                                                {{ __('Logout') }}
+                                                            <i class="mdi mdi-logout-variant"></i>
+                                                {{ __('Sair') }}
                                             </a>
                                         </li>
                                     </ul>

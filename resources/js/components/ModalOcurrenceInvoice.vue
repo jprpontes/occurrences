@@ -22,7 +22,7 @@
                                 <span>Histórico</span>
                             </div>
                             <div class="col-auto">
-                                <button class="btn btn-primary btn-sm" @click="$emit('open-modal-task-new-edit')">Nova tarefa</button>
+                                <button class="btn btn-primary btn-sm btn-icon" @click="$emit('open-modal-task-new-edit')"><i class="mdi mdi-plus"></i>Nova tarefa</button>
                             </div>
                         </div>
 
@@ -62,11 +62,11 @@
                             </div>
 
                             <div class="col-12">
-                                <button class="btn btn-primary col-12">Assumir</button>
+                                <button class="btn btn-primary btn-icon col-12"><i class="mdi mdi-human-greeting"></i>Assumir</button>
                             </div>
 
                             <div class="col-12">
-                                <button class="btn btn-primary col-12 mt-3">Próxima etapa</button>
+                                <button class="btn btn-primary btn-icon col-12 mt-3"><i class="mdi mdi-ray-start-arrow"></i>Próxima etapa</button>
                             </div>
 
                             <div class="col-12">

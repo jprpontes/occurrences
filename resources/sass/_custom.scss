@@ -18,3 +18,37 @@
 .text-gray-600 {
     color: $gray-600 !important;
 }
+.mdi {
+    font-size: 23px !important;
+    line-height: 1 !important;
+}
+.btn-icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    .mdi {
+        padding-right: 7px;
+    }
+}
+.btn-icon.btn-sm {
+    .mdi {
+        font-size: 17px !important;
+    }
+}
+.dropdown-item-icon {
+    display: flex !important;
+    align-items: center !important;
+
+    .mdi {
+        padding-right: 7px;
+    }
+}
+.nav-link-icon {
+    display: flex !important;
+    align-items: center !important;
+
+    .mdi {
+        padding-right: 4px;
+    }
+}

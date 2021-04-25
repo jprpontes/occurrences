@@ -12,7 +12,7 @@
             <span class="text-gray-600 fw-bold">{{ data.event }}</span>
             <span>{{ data.description }}</span>
             <div class="d-flex">
-                <button class="btn btn-primary btn-sm mt-3">Editar</button>
+                <button class="btn btn-primary btn-sm btn-icon mt-3"><i class="mdi mdi-pencil"></i>Editar</button>
             </div>
         </div>
     </div>

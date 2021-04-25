@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-12 col-md-5">
                 <div class="input-group mb-3">
-                    <span class="input-group-text">Pesquisar</span>
+                    <span class="input-group-text"><i class="mdi mdi-magnify"></i></span>
                     <input type="text" class="form-control" placeholder="Busque por código, nome da pessoa ou do contrato.">
                 </div>
             </div>

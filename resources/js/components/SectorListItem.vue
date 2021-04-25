@@ -11,7 +11,7 @@
                 </div>
 
                 <div class="col-auto d-flex align-items-center">
-                    <button class="btn btn-sm btn-primary" @click="modalSectorNewEdit = true">Editar</button>
+                    <button class="btn btn-sm btn-primary btn-icon" @click="modalSectorNewEdit = true"><i class="mdi mdi-pencil"></i>Editar</button>
                 </div>
             </div>
         </div>

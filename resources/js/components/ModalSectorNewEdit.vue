@@ -22,7 +22,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Salvar</button>
+                    <button type="button" class="btn btn-primary btn-icon"><i class="mdi mdi-check"></i>Salvar</button>
                 </div>
             </div>
         </div>

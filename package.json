@@ -24,6 +24,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@mdi/font": "^5.9.55",
         "bootstrap": "^5.0.0-beta3",
         "vue-avatar": "^2.3.3"
     }
