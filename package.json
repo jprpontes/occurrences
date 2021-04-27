@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "@mdi/font": "^5.9.55",
+        "@popperjs/core": "^2.9.2",
         "bootstrap": "^5.0.0-beta3",
         "vue-avatar": "^2.3.3"
     }
