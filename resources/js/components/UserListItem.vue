@@ -3,16 +3,14 @@
         <div class="card-body px-3 py-2">
             <div class="row">
                 <div class="col-auto d-flex align-items-center">
-                    <Avatar username="User" :size="30" class="bg-gray-200 border-gray-600 text-gray-600 border"></Avatar>
+                    <Avatar :username="user.name" :size="30" class="bg-gray-200 border-gray-600 text-gray-600 border"></Avatar>
                 </div>
 
                 <div class="col d-flex align-items-center">
-                    <span>User 1</span>
-                </div>
-
-                <div class="col-auto d-flex align-items-center">
-                    <span class="mx-1">Setor:</span>
-                    <span class="badge bg-gray-500">Setor 1</span>
+                    <div class="d-flex flex-column">
+                        <span class="fw-bold">{{ user.name }}</span>
+                        <span class="fs-7">{{ user.email }}</span>
+                    </div>
                 </div>
 
                 <div class="col-auto d-flex align-items-center">
@@ -27,6 +25,9 @@
 
 <script>
     export default {
+        props: {
+            user: Object
+        },
         data() {
             return {
                 modalUserNewEdit: false,

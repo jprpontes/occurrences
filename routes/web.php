@@ -20,17 +20,18 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/home', ['as' => 'home',    'uses' => 'HomeController@index']);
+    Route::get('/home', ['as' => 'home', 'uses' => 'HomeController@index']);
 
     Route::group(['as' => 'sectors.', 'prefix' => 'sectors'], function () {
-        Route::get('/', ['as' => 'index',    'uses' => 'SectorController@index']);
+        Route::get('/', ['as' => 'index', 'uses' => 'SectorController@index']);
     });
 
     Route::group(['as' => 'steps.', 'prefix' => 'steps'], function () {
-        Route::get('/', ['as' => 'index',    'uses' => 'StepController@index']);
+        Route::get('/', ['as' => 'index', 'uses' => 'StepController@index']);
     });
 
     Route::group(['as' => 'users.', 'prefix' => 'users'], function () {
-        Route::get('/', ['as' => 'index',    'uses' => 'UserController@index']);
+        Route::get('/', ['as' => 'index', 'uses' => 'UserController@index']);
+        Route::get('/pagination', ['as' => 'pagination', 'uses' => 'UserController@pagination']);
     });
 });

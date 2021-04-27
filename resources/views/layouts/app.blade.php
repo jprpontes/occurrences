@@ -20,6 +20,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
+    @routes
     <div id="app">
         @auth
             <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
