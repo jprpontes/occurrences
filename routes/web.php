@@ -33,5 +33,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['as' => 'users.', 'prefix' => 'users'], function () {
         Route::get('/', ['as' => 'index', 'uses' => 'UserController@index']);
         Route::get('/pagination', ['as' => 'pagination', 'uses' => 'UserController@pagination']);
+        Route::get('/create', ['as' => 'create', 'uses' => 'UserController@create']);
+        Route::get('/edit/{id}', ['as' => 'edit', 'uses' => 'UserController@edit']);
+        Route::post('/', ['as' => 'store', 'uses' => 'UserController@store']);
+        Route::put('/{id}', ['as' => 'update', 'uses' => 'UserController@update']);
     });
 });

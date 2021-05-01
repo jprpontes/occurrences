@@ -10,6 +10,8 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    const PASSWORD_MIN_SIZE = 8;
+
     protected $table = 'users';
 
     protected $fillable = [

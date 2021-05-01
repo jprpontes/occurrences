@@ -31,6 +31,10 @@
                 .catch(err => {
                     console.error(err);
                 });
+            },
+            refresh() {
+                this.users = [];
+                this.paginate();
             }
         }
     }

@@ -9,6 +9,18 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 /**
+ * Sweet Alert 2
+ */
+ import Swal from 'sweetalert2';
+ window.Swal = Swal.mixin({
+     customClass: {
+         confirmButton: 'btn btn-primary',
+         cancelButton: 'btn btn-secondary'
+     },
+     buttonsStyling: false
+ });
+
+/**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
  * components and automatically register them with their "basename".

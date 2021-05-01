@@ -18,8 +18,8 @@
             </div>
         </div>
 
-        <UserList />
-        <ModalUserNewEdit v-if="modalUserNewEdit" @modal-closed="modalUserNewEdit = false" />
+        <UserList ref="userList" />
+        <ModalUserNewEdit v-if="modalUserNewEdit" @modal-closed="modalUserNewEditClosed" />
     </div>
 </template>
 
@@ -32,6 +32,12 @@
         },
         mounted() {
 
+        },
+        methods: {
+            modalUserNewEditClosed() {
+                this.modalUserNewEdit = false;
+                this.$refs.userList.refresh();
+            }
         }
     }
 </script>
