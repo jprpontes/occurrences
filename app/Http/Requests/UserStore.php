@@ -13,7 +13,7 @@ class UserStore extends FormRequest
         return [
             'name'         => 'required',
             'email'        => 'required|email',
-            'sector_id'    => 'required|numeric',
+            // 'sector_id'    => 'required|numeric',
             'password'     => 'required',
             'passwordMode' => 'required',
         ];

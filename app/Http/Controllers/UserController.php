@@ -16,14 +16,23 @@ class UserController extends Controller
         return view('users');
     }
 
-    public function pagination()
+    public function getUsers()
     {
         $limit = 15;
         $users = User::orderBy('id', 'desc')
             ->offset(request()->offset ?? 0)
             ->limit($limit)
-            ->select(['id', 'name', 'email', 'created_at'])
-            ->get();
+            ->select(['id', 'name', 'email', 'created_at']);
+
+        if (request()->search) {
+            $users = $users->where(function ($query) {
+                $query->where('name', 'like', '%'.request()->search.'%');
+                $query->orWhere('email', 'like', '%'.request()->search.'%');
+            });
+        }
+
+        $users = $users->get();
+
         return response()->json([
             'verMais' => count($users) === $limit ? 1 : 0,
             'users' => $users
@@ -32,25 +41,25 @@ class UserController extends Controller
 
     public function create()
     {
-        $sectors = Sector::orderBy('name')
-            ->select(['id', 'name'])
-            ->get();
+        // $sectors = Sector::orderBy('name')
+        //     ->select(['id', 'name'])
+        //     ->get();
 
-        return response()->json([
-            'sectors' => $sectors
-        ]);
+        // return response()->json([
+        //     'sectors' => $sectors
+        // ]);
     }
 
     public function edit(int $id)
     {
-        $sectors = Sector::orderBy('name')
-        ->select(['id', 'name'])
-        ->get();
+        // $sectors = Sector::orderBy('name')
+        // ->select(['id', 'name'])
+        // ->get();
 
-        $user = User::select(['id', 'name', 'email', 'sector_id'])->find($id);
+        $user = User::select(['id', 'name', 'email'])->whereId($id)->first();
 
         return response()->json([
-            'sectors' => $sectors,
+            // 'sectors' => $sectors,
             'user'    => $user
         ]);
     }
@@ -67,6 +76,12 @@ class UserController extends Controller
 
     public function update(int $id, UserUpdate $request)
     {
-        $updatedUser = User::find($id)->update($request->all());
+        $data = $request->all();
+
+        if ($request->passwordMode !== 'NAO_REDEFINIR') {
+            $data['password'] = Hash::make($data['password']);
+        }
+
+        $updatedUser = User::find($id)->update($data);
     }
 }

@@ -14,12 +14,10 @@
                 </div>
 
                 <div class="col-auto d-flex align-items-center">
-                    <button class="btn btn-sm btn-primary btn-icon" @click="modalUserNewEdit = true"><i class="mdi mdi-pencil"></i>Editar</button>
+                    <button class="btn btn-sm btn-primary btn-icon" @click="$emit('edit', user)"><i class="mdi mdi-pencil"></i>Editar</button>
                 </div>
             </div>
         </div>
-
-        <ModalUserNewEdit v-if="modalUserNewEdit" @modal-closed="modalUserNewEdit = false" />
     </div>
 </template>
 
@@ -30,17 +28,14 @@
         },
         data() {
             return {
-                modalUserNewEdit: false,
+
             }
         },
         mounted() {
 
         },
         methods: {
-            modalActivityNewEditClosed() {
-                this.modalActivityNewEdit = false;
-                this.$refs.modalActivities.$el.focus();
-            }
+
         }
     }
 </script>

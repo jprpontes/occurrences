@@ -3,7 +3,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Novo usuário</h5>
+                    <h5 class="modal-title">{{ mode === 'NEW' ? 'Novo usuário' : 'Alteração de usuário' }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -20,23 +20,27 @@
                             <div class="invalid-feedback">{{ form.email.message }}</div>
                         </div>
 
-                        <div class="col-12 mb-3">
+                        <!-- <div class="col-12 mb-3">
                             <label for="tp-doc" class="form-label">Setor</label>
                             <select type="text" class="form-control" :class="{ 'is-invalid': !form.sector.valid }" id="tp-doc" v-model="form.sector.value">
                                 <option value="">Nenhum setor</option>
                                 <option v-for="sector in sectors" :key="sector.id" :value="sector">{{ sector.name }}</option>
                             </select>
                             <div class="invalid-feedback">{{ form.sector.message }}</div>
-                        </div>
+                        </div> -->
 
                         <div class="col-12 d-flex align-items-center mb-3">
+                            <div v-if="mode === 'EDIT'" class="form-check me-2">
+                                <input type="radio" name="radio-senha-op" id="radio-senha-op-naoredefinir" class="form-check-input" value="NAO_REDEFINIR" v-model="passwordMode">
+                                <label for="radio-senha-op-naoredefinir" class="form-check-label">Não mudar senha</label>
+                            </div>
                             <div class="form-check me-2">
-                                <input type="radio" name="radio-senha-op" id="radio-senha-op1" class="form-check-input" value="RANDOM" v-model="passwordMode">
-                                <label for="radio-senha-op1" class="form-check-label">Gerar senha aleatório</label>
+                                <input type="radio" name="radio-senha-op" id="radio-senha-op-random" class="form-check-input" value="RANDOM" v-model="passwordMode">
+                                <label for="radio-senha-op-random" class="form-check-label">{{ mode === 'NEW' ? 'Gerar senha aleatória' : 'Gerar nova senha aleatória' }}</label>
                             </div>
                             <div class="form-check mx-2">
-                                <input type="radio" name="radio-senha-op" id="radio-senha-op2" class="form-check-input" value="INFORMAR" v-model="passwordMode">
-                                <label for="radio-senha-op2" class="form-check-label">Informar senha</label>
+                                <input type="radio" name="radio-senha-op" id="radio-senha-op-informar" class="form-check-input" value="INFORMAR" v-model="passwordMode">
+                                <label for="radio-senha-op-informar" class="form-check-label">{{ mode === 'NEW' ? 'Informar senha' : 'Informar nova senha' }}</label>
                             </div>
                         </div>
 
@@ -70,10 +74,20 @@
 
 <script>
     export default {
+        props: {
+            mode: {
+                type: String,
+                default: () => 'NEW' //NEW | EDIT,
+            },
+            userId: {
+                type: Number,
+                default: () => -1
+            },
+        },
         data() {
             return {
-                passwordMode: 'RANDOM',
-                sectors: [],
+                passwordMode: this.mode === 'NEW' ? 'RANDOM' : 'NAO_REDEFINIR', //NAO_REDEFINIR | RANDOM | INFORMAR
+                // sectors: [],
                 loadingSaveRequest: false,
                 form: {
                     name: {
@@ -86,11 +100,11 @@
                         valid: true,
                         message: ''
                     },
-                    sector: {
-                        value: '',
-                        valid: true,
-                        message: ''
-                    },
+                    // sector: {
+                    //     value: '',
+                    //     valid: true,
+                    //     message: ''
+                    // },
                     password: {
                         value: '',
                         valid: true,
@@ -111,13 +125,33 @@
 
             $("#modal-user-new-edit").modal('show');
 
-            this.init();
+            if (this.mode === 'NEW') {
+                this.create();
+            } else {
+                this.edit();
+            }
         },
         methods: {
-            init() {
-                axios.get(route('users.create'))
+            create() {
+                // axios.get(route('users.create'))
+                //     .then(res => {
+                //         this.sectors = res.data.sectors;
+                //     })
+                //     .catch(err => {
+                //         console.error(err);
+                //     });
+            },
+            edit() {
+                axios.get(route('users.edit', { id: this.userId }))
                     .then(res => {
-                        this.sectors = res.data.sectors;
+                        // this.sectors = res.data.sectors;
+                        this.form.name.value = res.data.user.name;
+                        this.form.email.value = res.data.user.email;
+                        // this.sectors.forEach(element => {
+                        //     if (res.data.user.sector_id === element.id) {
+                        //         this.form.sector.value = element;
+                        //     }
+                        // });
                     })
                     .catch(err => {
                         console.error(err);
@@ -131,8 +165,43 @@
 
                 this.loadingSaveRequest = true;
 
+                if (this.mode === 'NEW') {
+                    this.insert();
+                } else {
+                    this.update();
+                }
+            },
+            insert() {
                 axios.post(route('users.store'), this.payloadToStore())
                     .then(res => {
+                        this.$emit('inserted');
+
+                        $("#modal-user-new-edit").modal('hide');
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Salvo com sucesso!',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Ops! Não foi possível salvar usuário.',
+                            showConfirmButton: true,
+                        })
+                    })
+                    .finally(() => {
+                        this.loadingSaveRequest = false;
+                    });
+            },
+            update() {
+                axios.put(route('users.update', { id: this.userId }), this.payloadToStore())
+                    .then(res => {
+                        this.$emit('updated');
+
                         $("#modal-user-new-edit").modal('hide');
 
                         Swal.fire({
@@ -175,14 +244,14 @@
                     this.form.email.message = '';
                 }
 
-                if (!this.form.sector.value) {
-                    isValid = false;
-                    this.form.sector.valid = false;
-                    this.form.sector.message = 'Selecione um setor.';
-                } else {
-                    this.form.sector.valid = true;
-                    this.form.sector.message = '';
-                }
+                // if (!this.form.sector.value) {
+                //     isValid = false;
+                //     this.form.sector.valid = false;
+                //     this.form.sector.message = 'Selecione um setor.';
+                // } else {
+                //     this.form.sector.valid = true;
+                //     this.form.sector.message = '';
+                // }
 
                 if (this.passwordMode === 'INFORMAR' && !this.form.password.value) {
                     isValid = false;
@@ -220,8 +289,8 @@
                 this.form.email.valid = true;
                 this.form.email.message = '';
 
-                this.form.sector.valid = true;
-                this.form.sector.message = '';
+                // this.form.sector.valid = true;
+                // this.form.sector.message = '';
 
                 this.form.password.valid = true;
                 this.form.password.message = '';
@@ -233,7 +302,7 @@
                 return {
                     name: this.form.name.value,
                     email: this.form.email.value,
-                    sector_id: this.form.sector.value.id,
+                    // sector_id: this.form.sector.value.id,
                     password: this.form.password.value,
                     passwordMode: this.passwordMode
                 }
