@@ -13,13 +13,13 @@
             <div class="col-12 col-md-5">
                 <div class="input-group mb-3">
                     <span class="input-group-text"><i class="mdi mdi-magnify"></i></span>
-                    <input type="text" class="form-control" placeholder="Busque pelo nome do setor.">
+                    <input type="text" class="form-control" v-model="searchValue" placeholder="Busque pelo nome do setor." @keypress.enter="search">
                 </div>
             </div>
         </div>
 
-        <SectorList />
-        <ModalSectorNewEdit v-if="modalSectorNewEdit" @modal-closed="modalSectorNewEdit = false" />
+        <SectorList ref="sectorList" />
+        <ModalSectorNewEdit v-if="modalSectorNewEdit" @modal-closed="modalSectorNewEditClosed" @inserted="sectorInserted" />
     </div>
 </template>
 
@@ -27,11 +27,23 @@
     export default {
         data() {
             return {
-                modalSectorNewEdit: false
+                modalSectorNewEdit: false,
+                searchValue: ''
             }
         },
         mounted() {
 
+        },
+        methods: {
+            modalSectorNewEditClosed() {
+                this.modalSectorNewEdit = false;
+            },
+            sectorInserted() {
+                this.$refs.sectorList.refresh();
+            },
+            search() {
+                this.$refs.sectorList.search(this.searchValue);
+            }
         }
     }
 </script>

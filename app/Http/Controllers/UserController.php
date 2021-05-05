@@ -26,8 +26,8 @@ class UserController extends Controller
 
         if (request()->search) {
             $users = $users->where(function ($query) {
-                $query->where('name', 'like', '%'.request()->search.'%');
-                $query->orWhere('email', 'like', '%'.request()->search.'%');
+                $query->whereRaw("LOWER(name) like '%".strtolower(request()->search)."%'");
+                $query->orWhereRaw("LOWER(email) like '%".strtolower(request()->search)."%'");
             });
         }
 

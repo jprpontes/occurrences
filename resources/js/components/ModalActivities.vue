@@ -3,12 +3,12 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title flex-fill">Atividades do setor {{ sectorName }}</h5>
-                    <button class="btn btn-primary btn-icon mx-4" @click="$emit('open-modal-activity-new-edit')"><i class="mdi mdi-plus"></i>Novo</button>
+                    <h5 class="modal-title flex-fill">Atividades do setor {{ sector.name }}</h5>
+                    <button class="btn btn-primary btn-icon mx-4" @click="$emit('create')"><i class="mdi mdi-plus"></i>Novo</button>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <ActivityList @open-modal-activity-new-edit="$emit('open-modal-activity-new-edit')" />
+                    <ActivityList @edit="$emit('edit', $event)" ref="activityList" :sector-id="sector.id" />
                 </div>
             </div>
         </div>
@@ -18,10 +18,7 @@
 <script>
     export default {
         props: {
-            sectorName: {
-                type: String,
-                default: () => 'Setor 1'
-            }
+            sector: Object
         },
         mounted() {
             $("#modal-activities").on('hidden.bs.modal', (event) => {
@@ -30,5 +27,10 @@
 
             $("#modal-activities").modal('show');
         },
+        methods: {
+            refreshActivityList() {
+                this.$refs.activityList.refresh();
+            }
+        }
     }
 </script>
