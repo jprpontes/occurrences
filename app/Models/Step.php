@@ -20,4 +20,9 @@ class Step extends Model
     protected $hidden = [
         'updated_at'
     ];
+
+    public function sector()
+    {
+        return $this->belongsTo(Sector::class);
+    }
 }

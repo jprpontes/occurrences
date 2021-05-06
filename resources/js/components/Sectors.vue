@@ -31,9 +31,6 @@
                 searchValue: ''
             }
         },
-        mounted() {
-
-        },
         methods: {
             modalSectorNewEditClosed() {
                 this.modalSectorNewEdit = false;

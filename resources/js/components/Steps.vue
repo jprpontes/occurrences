@@ -13,13 +13,13 @@
             <div class="col-12 col-md-5">
                 <div class="input-group mb-3">
                     <span class="input-group-text"><i class="mdi mdi-magnify"></i></span>
-                    <input type="text" class="form-control" placeholder="Busque pelo nome da etapa.">
+                    <input type="text" class="form-control" v-model="searchValue" placeholder="Busque pelo nome da etapa." @keypress.enter="search">
                 </div>
             </div>
         </div>
 
-        <StepList />
-        <ModalStepNewEdit v-if="modalStepNewEdit" @modal-closed="modalStepNewEdit = false" />
+        <StepList ref="stepList" />
+        <ModalStepNewEdit v-if="modalStepNewEdit" @modal-closed="modalStepNewEditClosed" @inserted="stepInserted" />
     </div>
 </template>
 
@@ -27,11 +27,20 @@
     export default {
         data() {
             return {
-                modalStepNewEdit: false
+                modalStepNewEdit: false,
+                searchValue: ''
             }
         },
-        mounted() {
-
+        methods: {
+            modalStepNewEditClosed() {
+                this.modalStepNewEdit = false;
+            },
+            stepInserted() {
+                this.$refs.stepList.refresh();
+            },
+            search() {
+                this.$refs.stepList.search(this.searchValue);
+            }
         }
     }
 </script>

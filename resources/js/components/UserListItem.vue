@@ -26,16 +26,5 @@
         props: {
             user: Object
         },
-        data() {
-            return {
-
-            }
-        },
-        mounted() {
-
-        },
-        methods: {
-
-        }
     }
 </script>

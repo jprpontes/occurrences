@@ -52,4 +52,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/', ['as' => 'store', 'uses' => 'ActivityController@store']);
         Route::put('/{id}', ['as' => 'update', 'uses' => 'ActivityController@update']);
     });
+
+    Route::group(['as' => 'steps.', 'prefix' => 'steps'], function () {
+        Route::get('/', ['as' => 'index', 'uses' => 'StepController@index']);
+        Route::get('/getsteps', ['as' => 'getsteps', 'uses' => 'StepController@getSteps']);
+        Route::get('/create', ['as' => 'create', 'uses' => 'StepController@create']);
+        Route::get('/edit/{id}', ['as' => 'edit', 'uses' => 'StepController@edit']);
+        Route::post('/', ['as' => 'store', 'uses' => 'StepController@store']);
+        Route::put('/{id}', ['as' => 'update', 'uses' => 'StepController@update']);
+    });
 });
