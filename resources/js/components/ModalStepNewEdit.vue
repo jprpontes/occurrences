@@ -61,7 +61,7 @@
                         message: ''
                     },
                     sector: {
-                        value: {},
+                        value: null,
                         valid: true,
                         message: ''
                     },
