@@ -10,7 +10,7 @@
             <div class="col-12 col-md-4">
                 <div class="input-group mb-3">
                     <span class="input-group-text"><i class="mdi mdi-account-group"></i></span>
-                    <select class="form-control">
+                    <select class="form-select">
                         <option value="1" selected>Todos os setores</option>
                     </select>
                 </div>

@@ -5,5 +5,6 @@ return [
         'users.*',
         'sectors.*',
         'steps.*',
+        'usersteps.*',
     ]
 ];

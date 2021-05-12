@@ -16,7 +16,7 @@
 
                         <div class="col-12">
                             <label for="sector" class="form-label">Setor</label>
-                            <select type="text" class="form-control" :class="{ 'is-invalid': !form.sector.valid }" id="sector" v-model="form.sector.value">
+                            <select type="text" class="form-select" :class="{ 'is-invalid': !form.sector.valid }" id="sector" v-model="form.sector.value">
                                 <option v-for="sector in sectors" :key="sector.id" :value="sector">{{ sector.name }}</option>
                             </select>
                             <div class="invalid-feedback">{{ form.sector.message }}</div>

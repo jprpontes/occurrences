@@ -10,7 +10,7 @@
                     <div class="row">
                         <div class="col-12 mb-3">
                             <label for="atividade" class="form-label">Atividade</label>
-                            <select type="text" class="form-control" id="atividade">
+                            <select type="text" class="form-select" id="atividade">
 
                             </select>
                         </div>
@@ -22,7 +22,7 @@
 
                         <div class="col-12">
                             <label for="executor" class="form-label">Executor</label>
-                            <select type="text" class="form-control" id="executor">
+                            <select type="text" class="form-select" id="executor">
 
                             </select>
                         </div>

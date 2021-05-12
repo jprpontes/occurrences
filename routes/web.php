@@ -61,4 +61,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/', ['as' => 'store', 'uses' => 'StepController@store']);
         Route::put('/{id}', ['as' => 'update', 'uses' => 'StepController@update']);
     });
+
+    Route::group(['as' => 'usersteps.', 'prefix' => 'usersteps'], function () {
+        Route::get('/getusers', ['as' => 'getusers', 'uses' => 'UserStepController@getUsers']);
+    });
 });

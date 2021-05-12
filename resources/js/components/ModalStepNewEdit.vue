@@ -2,12 +2,27 @@
     <div class="modal fade" tabindex="-1" id="modal-step-new-edit">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">{{ mode === 'NEW' ? 'Nova etapa' : 'Alteração de etapa' }}Nova etapa</h5>
+                <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title">{{ mode === 'NEW' ? 'Nova etapa' : 'Alteração de etapa' }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body pt-0">
                     <div class="row">
+                        <div class="col-12 px-0 mb-3">
+                            <ul class="nav nav-tabs px-2">
+                                <li class="nav-item">
+                                    <a class="nav-link" :class="{ active: tab === 'GERAL' }" @click="tab = 'GERAL'" aria-current="page" style="cursor: pointer">Geral</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link d-flex align-items-center" :class="{ active: tab === 'USUARIO' }" @click="tab = 'USUARIO'" style="cursor: pointer">
+                                        Usuários permitidos
+                                        <span class="badge bg-gray-200 text-gray-600 border-gray-600 border ms-2">9</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div v-if="tab === 'GERAL'" class="row">
                         <div class="col-12 mb-3">
                             <label for="nome" class="form-label">Nome</label>
                             <input type="text" class="form-control" :class="{ 'is-invalid': !form.name.valid }" id="nome" v-model="form.name.value" placeholder="Informe o nome da etapa.">
@@ -16,10 +31,22 @@
 
                         <div class="col-12">
                             <label for="tp-doc" class="form-label">Setor</label>
-                            <select type="text" class="form-control" :class="{ 'is-invalid': !form.sector.valid }" id="tp-doc" v-model="form.sector.value">
+                            <select type="text" class="form-select" :class="{ 'is-invalid': !form.sector.valid }" id="tp-doc" v-model="form.sector.value">
                                 <option v-for="sector in sectors" :key="sector.id" :value="sector">{{ sector.name }}</option>
                             </select>
                             <div class="invalid-feedback">{{ form.sector.message }}</div>
+                        </div>
+                    </div>
+                    <div v-else-if="tab === 'USUARIO'" class="row">
+                        <div class="col-12 mb-2">
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="mdi mdi-magnify"></i></span>
+                                <input type="text" class="form-control" v-model="searchUsersValue" placeholder="Busque usuários para adicionar à lista." @keypress.enter="searchUsers">
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <StepUsersList ref="stepUsersList" @add-to-step="addUserToStep" :step-id="stepId" />
                         </div>
                     </div>
                 </div>
@@ -54,6 +81,7 @@
             return {
                 sectors: [],
                 loadingSaveRequest: false,
+                tab: 'GERAL', //USUARIOS
                 form: {
                     name: {
                         value: '',
@@ -65,7 +93,8 @@
                         valid: true,
                         message: ''
                     },
-                }
+                },
+                searchUsersValue: ''
             }
         },
         mounted() {
@@ -206,6 +235,12 @@
                     name: this.form.name.value,
                     sector_id: this.form.sector.value.id,
                 }
+            },
+            searchUsers() {
+                this.$refs.stepUsersList.search(this.searchUsersValue);
+            },
+            addUserToStep(user) {
+
             }
         }
     }

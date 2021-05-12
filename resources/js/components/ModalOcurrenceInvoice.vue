@@ -38,7 +38,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <label for="step" class="form-label mb-0 mt-2">Etapa</label>
-                                <select class="form-control" id="step">
+                                <select class="form-select" id="step">
                                     <option value=""></option>
                                 </select>
                             </div>

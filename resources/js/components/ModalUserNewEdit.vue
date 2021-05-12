@@ -22,7 +22,7 @@
 
                         <!-- <div class="col-12 mb-3">
                             <label for="tp-doc" class="form-label">Setor</label>
-                            <select type="text" class="form-control" :class="{ 'is-invalid': !form.sector.valid }" id="tp-doc" v-model="form.sector.value">
+                            <select type="text" class="form-select" :class="{ 'is-invalid': !form.sector.valid }" id="tp-doc" v-model="form.sector.value">
                                 <option value="">Nenhum setor</option>
                                 <option v-for="sector in sectors" :key="sector.id" :value="sector">{{ sector.name }}</option>
                             </select>

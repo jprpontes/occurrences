@@ -16,7 +16,7 @@
 
                         <div class="col-12">
                             <label for="tp-doc" class="form-label">Tipo de documento</label>
-                            <select type="text" class="form-control" :class="{ 'is-invalid': !form.documentType.valid }" id="tp-doc" v-model="form.documentType.value">
+                            <select type="text" class="form-select" :class="{ 'is-invalid': !form.documentType.valid }" id="tp-doc" v-model="form.documentType.value">
                                 <option v-for="documentType in documentTypeList" :key="documentType.id" :value="documentType">{{ documentType.name }}</option>
                             </select>
                             <div class="invalid-feedback">{{ form.documentType.message }}</div>
