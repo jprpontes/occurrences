@@ -25,4 +25,9 @@ class Step extends Model
     {
         return $this->belongsTo(Sector::class);
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_steps');
+    }
 }

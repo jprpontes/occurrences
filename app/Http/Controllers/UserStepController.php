@@ -11,21 +11,27 @@ class UserStepController extends Controller
     public function getUsers()
     {
         $limit = 5;
-        $users = User::leftJoin('user_steps', 'user_steps.user_id', 'users.id')
-            ->where(function ($query) {
-                $query->where('user_steps.step_id', request()->stepId)
-                    ->orWhereNull('user_steps.step_id');
-            })
-            ->orderBy('users.name')
+        $users = User::orderBy('users.name')
             ->offset(request()->offset ?? 0)
             ->limit($limit)
-            ->select(['users.id', 'users.name', 'users.email', DB::raw('CASE WHEN user_steps.id IS NULL THEN 0 ELSE 1 END as adicionado')]);
+            ->select(['users.id', 'users.name', 'users.email']);
 
         if (request()->search) {
             $users = $users->where(function ($query) {
                 $query->whereRaw("LOWER(users.name) like '%".strtolower(request()->search)."%'");
                 $query->orWhereRaw("LOWER(users.email) like '%".strtolower(request()->search)."%'");
             });
+        }
+
+        if (request()->filter && request()->stepId) {
+            if (request()->filter === 'ALLOWEDS') {
+                $users = $users->whereExists(function ($query) {
+                    $query->selectRaw(1)
+                        ->from('user_steps')
+                        ->whereRaw('user_steps.user_id = users.id')
+                        ->where('user_steps.step_id', request()->stepId);
+                });
+            }
         }
 
         $users = $users->get();

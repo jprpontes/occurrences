@@ -10,8 +10,8 @@
                 </div>
 
                 <div class="col-auto d-flex align-items-center">
-                    <button v-if="user.adicionado" class="btn btn-sm btn-outline-danger btn-icon" @click="$emit('remove-from-step', user)"><i class="mdi mdi-close"></i>Revogar</button>
-                    <button v-else class="btn btn-sm btn-primary btn-icon" @click="$emit('add-to-step', user)"><i class="mdi mdi-check"></i>Permitir</button>
+                    <button v-if="userAllowed" class="btn btn-sm btn-outline-danger btn-icon" @click="$emit('remove-user-from-step', user)"><i class="mdi mdi-close"></i>Revogar</button>
+                    <button v-else class="btn btn-sm btn-primary btn-icon" @click="$emit('add-user-to-step', user)"><i class="mdi mdi-check"></i>Permitir</button>
                 </div>
             </div>
         </div>
@@ -21,7 +21,8 @@
 <script>
     export default {
         props: {
-            user: Object
-        },
+            user: Object,
+            userAllowed: Boolean
+        }
     }
 </script>

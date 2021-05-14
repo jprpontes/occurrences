@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Step;
 use App\Models\Sector;
+use App\Models\UserStep;
 use App\Http\Requests\StepStore;
 use App\Http\Requests\StepUpdate;
 
@@ -59,9 +60,12 @@ class StepController extends Controller
             ->select(['id', 'name'])
             ->get();
 
+        $stepUsers = $step->users()->select('users.id')->get()->pluck('id');
+
         return response()->json([
-            'step'    => $step,
-            'sectors' => $sectors
+            'step'      => $step,
+            'sectors'   => $sectors,
+            'stepUsers' => $stepUsers
         ]);
     }
 
@@ -69,11 +73,30 @@ class StepController extends Controller
     {
         $data = $request->all();
         Step::create($data);
+
+        if ($request->step_users) {
+            foreach ($request->step_users as $key => $user_id) {
+                UserStep::firstOrNew([
+                    'step_id' => $id,
+                    'user_id' => $user_id
+                ]);
+            }
+        }
     }
 
     public function update(int $id, StepUpdate $request)
     {
         $data = $request->all();
         Step::find($id)->update($data);
+
+        if ($request->step_users) {
+            foreach ($request->step_users as $key => $user_id) {
+                UserStep::firstOrCreate([
+                    'step_id' => $id,
+                    'user_id' => $user_id
+                ]);
+            }
+        }
+        UserStep::where('step_id', $id)->whereNotIn('user_id', $request->step_users ?? [])->delete();
     }
 }

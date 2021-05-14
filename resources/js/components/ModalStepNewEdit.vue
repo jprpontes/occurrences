@@ -16,7 +16,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link d-flex align-items-center" :class="{ active: tab === 'USUARIO' }" @click="tab = 'USUARIO'" style="cursor: pointer">
                                         Usuários permitidos
-                                        <span class="badge bg-gray-200 text-gray-600 border-gray-600 border ms-2">9</span>
+                                        <span class="badge bg-gray-200 text-gray-600 border-gray-600 border ms-2">{{ stepUsers.length }}</span>
                                     </a>
                                 </li>
                             </ul>
@@ -46,7 +46,7 @@
                         </div>
 
                         <div class="col-12">
-                            <StepUsersList ref="stepUsersList" @add-to-step="addUserToStep" :step-id="stepId" />
+                            <StepUsersList ref="stepUsersList" @add-user-to-step="addUserToStep" @remove-user-from-step="removeUserFromStep" :step-id="stepId" :step-users="stepUsers" />
                         </div>
                     </div>
                 </div>
@@ -80,6 +80,7 @@
         data() {
             return {
                 sectors: [],
+                stepUsers: [],
                 loadingSaveRequest: false,
                 tab: 'GERAL', //USUARIOS
                 form: {
@@ -111,6 +112,20 @@
             }
         },
         methods: {
+            addUserToStep(user) {
+                this.stepUsers.push(user.id);
+            },
+            removeUserFromStep(user) {
+                var index = [];
+                this.stepUsers.forEach((element, i) => {
+                    if (element === user.id) {
+                        index.push(i);
+                    }
+                });
+                index.forEach(element => {
+                    this.stepUsers.splice(element, 1);
+                });
+            },
             create() {
                 axios.get(route('steps.create'))
                     .then(res => {
@@ -124,6 +139,7 @@
                 axios.get(route('steps.edit', { id: this.stepId }))
                     .then(res => {
                         this.sectors = res.data.sectors;
+                        this.stepUsers = res.data.stepUsers;
                         this.form.name.value = res.data.step.name;
                         this.sectors.forEach(element => {
                             if (res.data.step.sector_id === element.id) {
@@ -234,13 +250,11 @@
                 return {
                     name: this.form.name.value,
                     sector_id: this.form.sector.value.id,
+                    step_users: this.stepUsers
                 }
             },
             searchUsers() {
                 this.$refs.stepUsersList.search(this.searchUsersValue);
-            },
-            addUserToStep(user) {
-
             }
         }
     }
