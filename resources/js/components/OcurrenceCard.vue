@@ -6,8 +6,8 @@
                     <span class="fs-7 fw-bold">CASA-BRUNO JAVIER AVILA O.</span>
                 </div>
 
-                <div class="col-auto">
-                    <Avatar username="Fulano de Tal" :size="25" class="bg-gray-200 border-gray-600 text-gray-600 border" />
+                <div v-if="ocurrence.transition.user" class="col-auto">
+                    <Avatar :username="ocurrence.transition.user.name" :size="25" class="bg-gray-200 border-gray-600 text-gray-600 border" />
                 </div>
             </div>
 
@@ -57,6 +57,9 @@
 
 <script>
     export default {
+        props: {
+            ocurrence: Object
+        },
         data() {
             return {
                 modalOcurrenceShow: false,

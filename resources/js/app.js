@@ -31,7 +31,7 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('Home', require('./components/Home.vue').default);
+Vue.component('Workspace', require('./components/Workspace.vue').default);
 Vue.component('Sectors', require('./components/Sectors.vue').default);
 Vue.component('Steps', require('./components/Steps.vue').default);
 Vue.component('StepColumn', require('./components/StepColumn.vue').default);

@@ -20,7 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/home', ['as' => 'home', 'uses' => 'HomeController@index']);
+    Route::get('/home', ['as' => 'home', 'uses' => 'WorkspaceController@index']);
 
     Route::group(['as' => 'steps.', 'prefix' => 'steps'], function () {
         Route::get('/', ['as' => 'index', 'uses' => 'StepController@index']);
@@ -64,5 +64,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['as' => 'usersteps.', 'prefix' => 'usersteps'], function () {
         Route::get('/getusers', ['as' => 'getusers', 'uses' => 'UserStepController@getUsers']);
+    });
+
+    Route::group(['as' => 'workspaces.', 'prefix' => 'workspaces'], function () {
+        Route::get('/getsteps', ['as' => 'getsteps', 'uses' => 'WorkspaceController@getsteps']);
+        Route::get('/getocurrences', ['as' => 'getocurrences', 'uses' => 'WorkspaceController@getOcurrences']);
     });
 });

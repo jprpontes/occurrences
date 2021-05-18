@@ -6,5 +6,6 @@ return [
         'sectors.*',
         'steps.*',
         'usersteps.*',
+        'workspaces.*',
     ]
 ];

@@ -17,4 +17,9 @@ class Ocurrence extends Model
     protected $hidden = [
         'updated_at'
     ];
+
+    public function transitions()
+    {
+        return $this->hasMany(Transition::class);
+    }
 }

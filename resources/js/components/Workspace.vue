@@ -17,11 +17,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3" style="height: calc(100vh - 160px);">
-                <StepColumn />
-            </div>
-            <div class="col-md-3" style="height: calc(100vh - 160px);">
-                <StepColumn />
+            <div v-for="step in steps" :key="step.id" class="col-md-3" style="height: calc(100vh - 160px);">
+                <StepColumn :step="step" />
             </div>
         </div>
     </div>
@@ -29,8 +26,24 @@
 
 <script>
     export default {
+        data() {
+            return {
+                steps: []
+            }
+        },
         mounted() {
-
+            this.getSteps();
+        },
+        methods: {
+            getSteps() {
+                axios.get(route('workspaces.getsteps'))
+                    .then(res => {
+                        this.steps = res.data.steps;
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    });
+            },
         }
     }
 </script>
