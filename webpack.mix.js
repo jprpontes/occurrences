@@ -12,6 +12,9 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
+    .babel('resources/js/bootstrap-datepicker.min.js', 'public/js/bootstrap-datepicker.min.js')
+    .babel('resources/js/bootstrap-datepicker.pt-BR.min.js', 'public/js/bootstrap-datepicker.pt-BR.min.js')
+    .copy('resources/css/bootstrap-datepicker3.min.css', 'public/css')
     .sass('resources/sass/app.scss', 'public/css')
     .webpackConfig({
         resolve: {

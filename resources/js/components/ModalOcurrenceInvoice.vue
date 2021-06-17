@@ -116,6 +116,12 @@
                 this.edit();
             }
             this.getStepsOptions();
+
+            $('#expectation').datepicker({
+                language: "pt-BR",
+                autoclose: true,
+                todayHighlight: true
+            });
         },
         methods: {
             edit() {
