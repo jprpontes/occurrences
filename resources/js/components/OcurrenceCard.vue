@@ -50,7 +50,7 @@
             </div>
         </div>
 
-        <ModalOcurrenceInvoice v-if="modalOcurrenceShow" @modal-closed="modalOcurrenceClosed" @open-modal-task-new-edit="modalTaskNewEdit = true" :style="{'z-index': modalTaskNewEdit ? 1 : 1060}" ref="modalOcurrenceInvoice" />
+        <ModalOcurrenceInvoice v-if="modalOcurrenceShow" @modal-closed="modalOcurrenceClosed" @open-modal-task-new-edit="modalTaskNewEdit = true" :style="{'z-index': modalTaskNewEdit ? 1 : 1060}" :ocurrence-id="ocurrence.id" ref="modalOcurrenceInvoice" />
         <ModalTaskNewEdit v-if="modalTaskNewEdit" @modal-closed="modalTaskNewEditClosed" />
     </div>
 </template>

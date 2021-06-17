@@ -3,7 +3,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">CASA-BRUNO JAVIER AVILA O.</h5>
+                <h5 class="modal-title">{{ title }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-0">
@@ -39,13 +39,13 @@
                             <div class="col-12">
                                 <label for="step" class="form-label mb-0 mt-2">Etapa</label>
                                 <select class="form-select" id="step">
-                                    <option value=""></option>
+                                    <option v-for="stepsOption in stepsOptions" :value="stepsOption" :key="stepsOption.id">{{ stepsOption.name }}</option>
                                 </select>
                             </div>
 
                             <div class="col-12">
                                 <label for="responsible" class="form-label mb-0 mt-2">Responsável</label>
-                                <input type="text" class="form-control" id="responsible">
+                                <ResponsibleInput ref="responsibleInput" />
                             </div>
 
                             <div class="col-12">
@@ -84,7 +84,6 @@
                                     </ul>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -96,12 +95,41 @@
 
 <script>
     export default {
+        props: {
+            ocurrenceId: Number
+        },
+        data() {
+            return {
+                stepsOptions: [],
+                title: '',
+                responsible: {}
+            }
+        },
         mounted() {
             $("#modal-ocurrence-invoice").on('hidden.bs.modal', (event) => {
                 this.$emit('modal-closed');
             })
 
             $("#modal-ocurrence-invoice").modal('show');
+
+            if (this.ocurrenceId) {
+                this.edit();
+            }
+            this.getStepsOptions();
         },
+        methods: {
+            edit() {
+                axios.get(route('ocurrences.edit', { id: this.ocurrenceId }))
+                    .then(res => {
+                        this.title = res.data.ocurrence.title;
+                    });
+            },
+            getStepsOptions() {
+                axios.get(route('workspaces.getstepsoptions'))
+                    .then(res => {
+                        this.stepsOptions = res.data.steps;
+                    });
+            }
+        }
     }
 </script>

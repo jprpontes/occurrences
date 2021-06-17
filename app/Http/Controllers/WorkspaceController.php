@@ -66,4 +66,22 @@ class WorkspaceController extends Controller
             'ocurrences' => $ocurrencesResource
         ]);
     }
+
+    public function getStepsOptions()
+    {
+        $steps = Step::orderBy('id', 'desc')
+            ->whereExists(function ($query) {
+                $query->selectRaw(1)
+                    ->from('user_steps')
+                    ->whereRaw('user_steps.step_id = steps.id')
+                    ->where('user_steps.user_id', auth()->user()->id);
+            })
+            ->select(['id', 'name']);
+
+        $steps = $steps->get();
+
+        return response()->json([
+            'steps'   => $steps
+        ]);
+    }
 }
