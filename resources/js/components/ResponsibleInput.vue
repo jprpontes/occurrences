@@ -2,7 +2,7 @@
     <div class="dropdown">
         <div class="form-select" data-bs-toggle="dropdown">
             <div class="d-flex align-items-center" v-if="selectedResponsible">
-                <Avatar :username="selectedResponsible.name" :size="25" class="bg-gray-200 border-gray-600 text-gray-600 border" />
+                <Avatar :username="selectedResponsible.name" :size="23" class="bg-gray-200 border-gray-600 text-gray-600 border" />
                 <span class="ms-2">{{ selectedResponsible.name }}</span>
             </div>
             <div class="d-flex align-items-center" v-else>
@@ -20,7 +20,7 @@
             </li>
             <li v-for="responsible in responsibles" :key="responsible.id">
                 <div class="dropdown-item d-flex align-items-center" @click="setResponsible(responsible)">
-                    <Avatar :username="responsible.name" :size="25" class="bg-gray-200 border-gray-600 text-gray-600 border" />
+                    <Avatar :username="responsible.name" :size="23" class="bg-gray-200 border-gray-600 text-gray-600 border" />
                     <span class="ms-2">{{ responsible.name }}</span>
                 </div>
             </li>

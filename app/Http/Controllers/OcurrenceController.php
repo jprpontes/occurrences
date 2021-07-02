@@ -20,4 +20,9 @@ class OcurrenceController extends Controller
             'ocurrence' => $ocurrenceResource
         ]);
     }
+
+    public function toAssume(Request $request, int $ocurrenceId)
+    {
+
+    }
 }
