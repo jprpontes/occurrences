@@ -72,12 +72,12 @@ class StepController extends Controller
     public function store(StepStore $request)
     {
         $data = $request->all();
-        Step::create($data);
+        $step = Step::create($data);
 
         if ($request->step_users) {
             foreach ($request->step_users as $key => $user_id) {
                 UserStep::firstOrNew([
-                    'step_id' => $id,
+                    'step_id' => $step->id,
                     'user_id' => $user_id
                 ]);
             }
