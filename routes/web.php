@@ -73,5 +73,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/edit/{id}', ['as' => 'edit', 'uses' => 'OccurrenceController@edit']);
         Route::post('/{id}/toassume', ['as' => 'toassume', 'uses' => 'OccurrenceController@toAssume']);
         Route::get('/getusers', ['as' => 'getusers', 'uses' => 'OccurrenceController@getUsers']);
+        Route::put('/{id}/nextstep', ['as' => 'nextstep', 'uses' => 'OccurrenceController@nextStep']);
+        Route::put('/{id}/changestep', ['as' => 'changestep', 'uses' => 'OccurrenceController@changeStep']);
+        Route::put('/{id}/changeresponsible', ['as' => 'changeresponsible', 'uses' => 'OccurrenceController@changeResponsible']);
+        Route::put('/{id}/changeexpectation', ['as' => 'changeexpectation', 'uses' => 'OccurrenceController@changeExpectation']);
     });
 });

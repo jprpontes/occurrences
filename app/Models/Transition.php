@@ -26,4 +26,9 @@ class Transition extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function step()
+    {
+        return $this->belongsTo(Step::class);
+    }
 }

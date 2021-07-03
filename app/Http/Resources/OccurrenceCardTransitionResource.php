@@ -16,6 +16,7 @@ class OccurrenceCardTransitionResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'step' => $this->step,
             'doc_due_date' => $this->doc_due_date,
             'user' => OccurrenceCardUserResource::make($this->whenLoaded('user'))
         ];
