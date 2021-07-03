@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class OcurrenceCardTransictionResource extends JsonResource
+class OccurrenceCardUserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,7 @@ class OcurrenceCardTransictionResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'doc_due_date' => $this->doc_due_date,
-            'user' => OcurrenceCardUserResource::make($this->whenLoaded('user'))
+            'name' => $this->name,
         ];
     }
 }

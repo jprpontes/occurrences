@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" tabindex="-1" id="modal-ocurrence-invoice">
+    <div class="modal fade" tabindex="-1" id="modal-occurrence-invoice">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
             <div class="modal-header">
@@ -30,7 +30,7 @@
 
                         <div class="row">
                             <div class="col">
-                                <TimelineOcurrence @open-modal-task-new-edit="$emit('open-modal-task-new-edit')" />
+                                <TimelineOccurrence @open-modal-task-new-edit="$emit('open-modal-task-new-edit')" />
                             </div>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
 
                             <div class="col-12">
                                 <label for="responsible" class="form-label mb-0 mt-2">Responsável</label>
-                                <ResponsibleInput ref="responsibleInput" />
+                                <ResponsibleInput :responsible="responsible" @responsible-changed="responsibleChanged" />
                             </div>
 
                             <div class="col-12">
@@ -57,8 +57,8 @@
                                 <label class="form-label mb-0 mt-2">Ações</label>
                             </div>
 
-                            <div class="col-12">
-                                <button class="btn btn-outline-primary btn-icon col-12 justify-content-start"><i class="mdi mdi-human-greeting"></i>Assumir</button>
+                            <div class="col-12" v-if="!responsible">
+                                <button class="btn btn-outline-primary btn-icon col-12 justify-content-start" @click="toAssume"><i class="mdi mdi-human-greeting"></i>Assumir</button>
                             </div>
 
                             <div class="col-12">
@@ -66,8 +66,8 @@
                             </div>
 
                             <div class="col-12">
-                                <label for="open-ocurrences-list" class="form-label mb-0 mt-3">Ocorrências abertas</label>
-                                <div class="card" id="open-ocurrences-list">
+                                <label for="open-occurrences-list" class="form-label mb-0 mt-3">Ocorrências abertas</label>
+                                <div class="card" id="open-occurrences-list">
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item d-flex">
                                             <span class="flex-fill text-center">1</span>
@@ -96,23 +96,23 @@
 <script>
     export default {
         props: {
-            ocurrenceId: Number
+            occurrenceId: Number
         },
         data() {
             return {
                 stepsOptions: [],
                 title: '',
-                responsible: {}
+                responsible: null
             }
         },
         mounted() {
-            $("#modal-ocurrence-invoice").on('hidden.bs.modal', (event) => {
+            $("#modal-occurrence-invoice").on('hidden.bs.modal', (event) => {
                 this.$emit('modal-closed');
             })
 
-            $("#modal-ocurrence-invoice").modal('show');
+            $("#modal-occurrence-invoice").modal('show');
 
-            if (this.ocurrenceId) {
+            if (this.occurrenceId) {
                 this.edit();
             }
             this.getStepsOptions();
@@ -124,10 +124,21 @@
             });
         },
         methods: {
-            edit() {
-                axios.get(route('ocurrences.edit', { id: this.ocurrenceId }))
+            responsibleChanged(event) {
+                this.responsible = event.responsible;
+            },
+            toAssume() {
+                axios.post(route('occurrences.toassume', { id: this.occurrenceId }))
                     .then(res => {
-                        this.title = res.data.ocurrence.title;
+                        this.responsible = res.data.responsible;
+                    });
+            },
+            edit() {
+                axios.get(route('occurrences.edit', { id: this.occurrenceId }))
+                    .then(res => {
+                        this.title       = res.data.occurrence.title;
+                        this.responsible = res.data.occurrence.transition.user;
+                        $('#expectation').datepicker("setDate", moment(res.data.occurrence.transition.doc_due_date, 'YYYY-MM-DD hh:mm:ss').toDate());
                     });
             },
             getStepsOptions() {

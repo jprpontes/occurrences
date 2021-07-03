@@ -30,4 +30,14 @@ class Step extends Model
     {
         return $this->belongsToMany(User::class, 'user_steps');
     }
+
+    public function prevStep()
+    {
+        return $this->belongsTo(Step::class, 'prev_step');
+    }
+
+    public function nextStep()
+    {
+        return $this->belongsTo(Step::class, 'next_step');
+    }
 }

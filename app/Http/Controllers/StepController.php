@@ -54,7 +54,15 @@ class StepController extends Controller
 
     public function edit(int $id)
     {
-        $step = Step::select(['id', 'name', 'sector_id'])->whereId($id)->first();
+        $step = Step::select(['id', 'name', 'sector_id', 'prev_step', 'next_step'])
+            ->with(['prevStep' => function ($query) {
+                $query->select(['id', 'name']);
+            }])
+            ->with(['nextStep' => function ($query) {
+                $query->select(['id', 'name']);
+            }])
+            ->whereId($id)
+            ->first();
 
         $sectors = Sector::orderBy('name')
             ->select(['id', 'name'])
@@ -76,7 +84,7 @@ class StepController extends Controller
 
         if ($request->step_users) {
             foreach ($request->step_users as $key => $user_id) {
-                UserStep::firstOrNew([
+                UserStep::firstOrCreate([
                     'step_id' => $step->id,
                     'user_id' => $user_id
                 ]);
@@ -98,5 +106,24 @@ class StepController extends Controller
             }
         }
         UserStep::where('step_id', $id)->whereNotIn('user_id', $request->step_users ?? [])->delete();
+    }
+
+    public function getStepsToPrevNext()
+    {
+        $limit = 15;
+        $steps = Step::limit($limit)
+            ->select(['id', 'name']);
+
+        if (request()->search) {
+            $steps = $steps->where(function ($query) {
+                $query->whereRaw("LOWER(name) like '%".strtolower(request()->search)."%'");
+            });
+        }
+
+        $steps = $steps->get();
+
+        return response()->json([
+            'steps' => $steps
+        ]);
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOcurrencesTable extends Migration
+class CreateOccurrencesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateOcurrencesTable extends Migration
      */
     public function up()
     {
-        Schema::create('ocurrences', function (Blueprint $table) {
+        Schema::create('occurrences', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->unsignedBigInteger('person_id');
@@ -32,6 +32,6 @@ class CreateOcurrencesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ocurrences');
+        Schema::dropIfExists('occurrences');
     }
 }

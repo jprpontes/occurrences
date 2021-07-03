@@ -22,10 +22,6 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', ['as' => 'home', 'uses' => 'WorkspaceController@index']);
 
-    Route::group(['as' => 'steps.', 'prefix' => 'steps'], function () {
-        Route::get('/', ['as' => 'index', 'uses' => 'StepController@index']);
-    });
-
     Route::group(['as' => 'users.', 'prefix' => 'users'], function () {
         Route::get('/', ['as' => 'index', 'uses' => 'UserController@index']);
         Route::get('/getusers', ['as' => 'getusers', 'uses' => 'UserController@getUsers']);
@@ -60,6 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/edit/{id}', ['as' => 'edit', 'uses' => 'StepController@edit']);
         Route::post('/', ['as' => 'store', 'uses' => 'StepController@store']);
         Route::put('/{id}', ['as' => 'update', 'uses' => 'StepController@update']);
+        Route::get('/getstepstoprevnext', ['as' => 'getstepstoprevnext', 'uses' => 'StepController@getStepsToPrevNext']);
     });
 
     Route::group(['as' => 'usersteps.', 'prefix' => 'usersteps'], function () {
@@ -68,11 +65,13 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['as' => 'workspaces.', 'prefix' => 'workspaces'], function () {
         Route::get('/getsteps', ['as' => 'getsteps', 'uses' => 'WorkspaceController@getsteps']);
-        Route::get('/getocurrences', ['as' => 'getocurrences', 'uses' => 'WorkspaceController@getOcurrences']);
+        Route::get('/getoccurrences', ['as' => 'getoccurrences', 'uses' => 'WorkspaceController@getOccurrences']);
         Route::get('/getstepsoptions', ['as' => 'getstepsoptions', 'uses' => 'WorkspaceController@getStepsOptions']);
     });
 
-    Route::group(['as' => 'ocurrences.', 'prefix' => 'ocurrences'], function () {
-        Route::get('/edit/{id}', ['as' => 'edit', 'uses' => 'OcurrenceController@edit']);
+    Route::group(['as' => 'occurrences.', 'prefix' => 'occurrences'], function () {
+        Route::get('/edit/{id}', ['as' => 'edit', 'uses' => 'OccurrenceController@edit']);
+        Route::post('/{id}/toassume', ['as' => 'toassume', 'uses' => 'OccurrenceController@toAssume']);
+        Route::get('/getusers', ['as' => 'getusers', 'uses' => 'OccurrenceController@getUsers']);
     });
 });

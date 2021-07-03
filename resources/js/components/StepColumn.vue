@@ -6,7 +6,7 @@
         </div>
 
         <div class="card-body p-2" style="overflow-y: auto">
-            <OcurrenceCard v-for="ocurrence in ocurrences" :key="ocurrence.id" :ocurrence="ocurrence" class="mb-2" />
+            <OccurrenceCard v-for="occurrence in occurrences" :key="occurrence.id" :occurrence="occurrence" class="mb-2" />
         </div>
     </div>
 </template>
@@ -19,7 +19,7 @@
         data() {
             return {
                 verMais: false,
-                ocurrences: []
+                occurrences: []
             }
         },
         mounted() {
@@ -27,10 +27,10 @@
         },
         methods: {
             paginateOucurrences() {
-                axios.get(route('workspaces.getocurrences', { offset: this.ocurrences.length, stepId: this.step.id }))
+                axios.get(route('workspaces.getoccurrences', { offset: this.occurrences.length, stepId: this.step.id }))
                     .then(res => {
                         this.verMais = res.data.verMais;
-                        this.ocurrences = this.ocurrences.concat(res.data.ocurrences);
+                        this.occurrences = this.occurrences.concat(res.data.occurrences);
                     })
                     .catch(err => {
                         console.error(err);

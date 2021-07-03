@@ -29,12 +29,24 @@
                             <div class="invalid-feedback">{{ form.name.message }}</div>
                         </div>
 
-                        <div class="col-12">
+                        <div class="col-12 mb-3">
                             <label for="tp-doc" class="form-label">Setor</label>
                             <select type="text" class="form-select" :class="{ 'is-invalid': !form.sector.valid }" id="tp-doc" v-model="form.sector.value">
                                 <option v-for="sector in sectors" :key="sector.id" :value="sector">{{ sector.name }}</option>
                             </select>
                             <div class="invalid-feedback">{{ form.sector.message }}</div>
+                        </div>
+
+                        <div class="col-12 mb-3">
+                            <label for="prev-step" class="form-label">Etapa Anterior</label>
+                            <StepInput id="prev-step" :step="form.prevStep.value" @step-changed="prevStepChanged" />
+                            <div class="invalid-feedback">{{ form.prevStep.message }}</div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="next-step" class="form-label">Etapa Seguinte</label>
+                            <StepInput id="next-step" :step="form.nextStep.value" @step-changed="nextStepChanged" />
+                            <div class="invalid-feedback">{{ form.nextStep.message }}</div>
                         </div>
                     </div>
                     <div v-else-if="tab === 'USUARIO'" class="row">
@@ -94,6 +106,16 @@
                         valid: true,
                         message: ''
                     },
+                    prevStep: {
+                        value: null,
+                        valid: true,
+                        message: ''
+                    },
+                    nextStep: {
+                        value: null,
+                        valid: true,
+                        message: ''
+                    },
                 },
                 searchUsersValue: ''
             }
@@ -112,6 +134,12 @@
             }
         },
         methods: {
+            prevStepChanged(event) {
+                this.form.prevStep.value = event.step;
+            },
+            nextStepChanged(event) {
+                this.form.nextStep.value = event.step;
+            },
             addUserToStep(user) {
                 this.stepUsers.push(user.id);
             },
@@ -141,6 +169,8 @@
                         this.sectors = res.data.sectors;
                         this.stepUsers = res.data.stepUsers;
                         this.form.name.value = res.data.step.name;
+                        this.form.prevStep.value = res.data.step.prev_step;
+                        this.form.nextStep.value = res.data.step.next_step;
                         this.sectors.forEach(element => {
                             if (res.data.step.sector_id === element.id) {
                                 this.form.sector.value = element;
@@ -245,12 +275,18 @@
                 this.form.name.message = '';
                 this.form.sector.valid = true;
                 this.form.sector.message = '';
+                this.form.prevStep.valid = true;
+                this.form.prevStep.message = '';
+                this.form.nextStep.valid = true;
+                this.form.nextStep.message = '';
             },
             payloadToStore() {
                 return {
                     name: this.form.name.value,
                     sector_id: this.form.sector.value.id,
-                    step_users: this.stepUsers
+                    step_users: this.stepUsers,
+                    prev_step: this.form.prevStep.value ? this.form.prevStep.value.id : null,
+                    next_step: this.form.nextStep.value ? this.form.nextStep.value.id : null
                 }
             },
             searchUsers() {

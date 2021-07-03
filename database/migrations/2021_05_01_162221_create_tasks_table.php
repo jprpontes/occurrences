@@ -21,7 +21,7 @@ class CreateTasksTable extends Migration
             $table->text('anotation')->nullable();
             $table->timestampsTz();
 
-            $table->foreign('occurrence_id')->references('id')->on('ocurrences');
+            $table->foreign('occurrence_id')->references('id')->on('occurrences');
             $table->foreign('activity_id')->references('id')->on('activities');
             $table->foreign('user_id')->references('id')->on('users');
         });

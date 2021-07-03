@@ -27,6 +27,7 @@
         "@mdi/font": "^5.9.55",
         "@popperjs/core": "^2.9.2",
         "bootstrap": "^5.0.0-beta3",
+        "moment": "^2.29.1",
         "sweetalert2": "^10.16.6",
         "vue-avatar": "^2.3.3",
         "vuedraggable": "^2.24.3"

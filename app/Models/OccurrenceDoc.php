@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class OcurrenceDoc extends Model
+class OccurrenceDoc extends Model
 {
-    protected $table = 'ocurrence_docs';
+    protected $table = 'occurrence_docs';
 
     protected $fillable = [
         'occurrence_id',

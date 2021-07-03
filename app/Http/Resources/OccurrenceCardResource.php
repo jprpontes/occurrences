@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class OcurrenceEditResource extends JsonResource
+class OccurrenceCardResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,9 @@ class OcurrenceEditResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'transition' => OcurrenceCardTransictionResource::collection($this->whenLoaded('transitions'))[0]
+            'person_id' => $this->person_id,
+            'contract_id' => $this->contract_id,
+            'transition' => OccurrenceCardTransitionResource::collection($this->whenLoaded('transitions'))[0]
         ];
     }
 }

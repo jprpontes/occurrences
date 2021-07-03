@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Step;
-use App\Models\Ocurrence;
-use App\Http\Resources\OcurrenceCardResource;
+use App\Models\Occurrence;
+use App\Http\Resources\OccurrenceCardResource;
 
 class WorkspaceController extends Controller
 {
@@ -32,15 +32,15 @@ class WorkspaceController extends Controller
         ]);
     }
 
-    public function getOcurrences()
+    public function getOccurrences()
     {
         $limit = 15;
-        $ocurrences = Ocurrence::orderBy('id', 'desc')
+        $occurrences = Occurrence::orderBy('id', 'desc')
             ->limit($limit)
             ->whereExists(function ($query) {
                 $query->selectRaw(1)
                     ->from('transitions')
-                    ->whereRaw('transitions.ocurrence_id = ocurrences.id')
+                    ->whereRaw('transitions.occurrence_id = occurrences.id')
                     ->where('transitions.step_id', request()->stepId)
                     ->where('transitions.isactive', true);
             })
@@ -57,13 +57,13 @@ class WorkspaceController extends Controller
         //     });
         // }
 
-        $ocurrences = $ocurrences->get();
+        $occurrences = $occurrences->get();
 
-        $ocurrencesResource = OcurrenceCardResource::collection($ocurrences);
+        $occurrencesResource = OccurrenceCardResource::collection($occurrences);
 
         return response()->json([
-            'verMais'    => count($ocurrences) === $limit ? 1 : 0,
-            'ocurrences' => $ocurrencesResource
+            'verMais'    => count($occurrences) === $limit ? 1 : 0,
+            'occurrences' => $occurrencesResource
         ]);
     }
 

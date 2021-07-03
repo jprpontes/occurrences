@@ -1,9 +1,9 @@
 <template>
     <div class="dropdown">
         <div class="form-select" data-bs-toggle="dropdown">
-            <div class="d-flex align-items-center" v-if="selectedResponsible">
-                <Avatar :username="selectedResponsible.name" :size="23" class="bg-gray-200 border-gray-600 text-gray-600 border" />
-                <span class="ms-2">{{ selectedResponsible.name }}</span>
+            <div class="d-flex align-items-center" v-if="responsible">
+                <Avatar :username="responsible.name" :size="23" class="bg-gray-200 border-gray-600 text-gray-600 border" />
+                <span class="ms-2">{{ responsible.name }}</span>
             </div>
             <div class="d-flex align-items-center" v-else>
                 <span>Não atribuído</span>
@@ -18,10 +18,10 @@
                     <span>Não atribuído</span>
                 </div>
             </li>
-            <li v-for="responsible in responsibles" :key="responsible.id">
-                <div class="dropdown-item d-flex align-items-center" @click="setResponsible(responsible)">
-                    <Avatar :username="responsible.name" :size="23" class="bg-gray-200 border-gray-600 text-gray-600 border" />
-                    <span class="ms-2">{{ responsible.name }}</span>
+            <li v-for="responsibleItem in responsibles" :key="responsibleItem.id">
+                <div class="dropdown-item d-flex align-items-center" @click="setResponsible(responsibleItem)">
+                    <Avatar :username="responsibleItem.name" :size="23" class="bg-gray-200 border-gray-600 text-gray-600 border" />
+                    <span class="ms-2">{{ responsibleItem.name }}</span>
                 </div>
             </li>
         </ul>
@@ -31,34 +31,29 @@
 <script>
     export default {
         props: {
-
+            responsible: Object
         },
         data() {
             return {
                 search: '',
-                selectedResponsible: null,
-                responsibles: [
-                    {
-                        id: 1,
-                        name: 'Fulano'
-                    },
-                    {
-                        id: 2,
-                        name: 'Siclano'
-                    },
-                    {
-                        id: 3,
-                        name: 'Beltrano'
-                    },
-                ]
+                responsibles: []
             }
         },
+        mounted() {
+            this.getUsers();
+        },
         methods: {
-            setResponsible(responsible) {
-                this.selectedResponsible = responsible;
+            getUsers() {
+                axios.get(route('occurrences.getusers', { search: this.search }))
+                    .then(res => {
+                        this.responsibles = res.data.users;
+                    })
+            },
+            setResponsible(selectedResponsible) {
+                this.$emit('responsible-changed', { responsible: selectedResponsible });
             },
             searchResponsibles() {
-                axios.get(route('ocurrences.responsibles', { search: this.search }))
+                axios.get(route('occurrences.responsibles', { search: this.search }))
                     .then(res => {
                         this.responsibles = res.data.responsibles;
                     })
@@ -66,6 +61,11 @@
                         console.error(err);
                     });
             },
+        },
+        watch: {
+            search(value) {
+                this.getUsers();
+            }
         }
     }
 </script>
