@@ -100,6 +100,7 @@ class OccurrenceController extends Controller
                 'doc_due_date'  => $lastTransition->doc_due_date,
                 'isactive'      => true,
                 'user_id'       => $lastTransition->user_id,
+                'updated_by'    => auth()->user()->id
             ]);
 
             \DB::commit();
@@ -134,6 +135,7 @@ class OccurrenceController extends Controller
                 'doc_due_date'  => $lastTransition->doc_due_date,
                 'isactive'      => true,
                 'user_id'       => $lastTransition->user_id,
+                'updated_by'    => auth()->user()->id
             ]);
 
             \DB::commit();
@@ -164,6 +166,7 @@ class OccurrenceController extends Controller
                 'doc_due_date'  => $lastTransition->doc_due_date,
                 'isactive'      => true,
                 'user_id'       => $newResponsible ? $newResponsible->id : null,
+                'updated_by'    => auth()->user()->id
             ]);
 
             \DB::commit();
@@ -194,6 +197,7 @@ class OccurrenceController extends Controller
                 'doc_due_date'  => $newDocDueDate,
                 'isactive'      => true,
                 'user_id'       => $lastTransition->user_id,
+                'updated_by'    => auth()->user()->id
             ]);
 
             \DB::commit();
@@ -201,5 +205,54 @@ class OccurrenceController extends Controller
             \DB::rollback();
             throw $th;
         }
+    }
+
+    public function timeline(int $id)
+    {
+        $timeline = [];
+        $prevTransition = null;
+
+        Transition::with('occurrence')
+        ->with(['step' => function ($query) {
+            $query->select([ 'id', 'name' ]);
+        }])
+        ->where('occurrence_id', $id)
+        ->orderBy('created_at')
+        ->get()
+        ->each(function ($transition) use (&$timeline, &$prevTransition) {
+            if (!$prevTransition) {
+                $timeline[] = [
+                    'type'      => 'OCCURRENCE_CREATED',
+                    'date'      => $transition->created_at,
+                    'updatedBy' => $transition->userWhoChanged()->select([ 'id', 'name' ])->first(),
+                ];
+            } elseif ($transition->step_id != $prevTransition->step_id) {
+                $timeline[] = [
+                    'type'      => 'OCCURRENCE_CHANGED_STEP',
+                    'date'      => $transition->created_at,
+                    'updatedBy' => $transition->userWhoChanged()->select([ 'id', 'name' ])->first(),
+                    'oldStep'   => $prevTransition->step,
+                    'newStep'   => $transition->step,
+                ];
+            } elseif ($transition->user_id != $prevTransition->user_id) {
+                $timeline[] = [
+                    'type'      => 'OCCURRENCE_CHANGED_USER',
+                    'date'      => $transition->created_at,
+                    'updatedBy' => $transition->userWhoChanged()->select([ 'id', 'name' ])->first(),
+                    'oldUser'   => $prevTransition->user()->select([ 'id', 'name' ])->first(),
+                    'newUser'   => $transition->user()->select([ 'id', 'name' ])->first(),
+                ];
+            }
+
+            $prevTransition = $transition;
+        });
+
+        usort($timeline, function ($a, $b) {
+            return $b['date'] <=> $a['date'];
+        });
+
+        return response()->json([
+            'timeline' => $timeline
+        ]);
     }
 }

@@ -1,43 +1,34 @@
 <template>
     <div class="row">
         <div class="col-12" v-for="(item, index) in timeline" :key="index">
-            <TimelineItemDefault v-if="item.type === 'DEFAULT'" :data="item.data" />
-            <TimelineItemTask v-else-if="item.type === 'TASK'" :data="item.data" @open-modal-task-new-edit="$emit('open-modal-task-new-edit')" />
+            <TimelineItemOccurrenceCreated v-if="item.type === 'OCCURRENCE_CREATED'" :data="item" />
+            <TimelineItemOccurrenceChangedStep v-else-if="item.type === 'OCCURRENCE_CHANGED_STEP'" :data="item" />
+            <TimelineItemOccurrenceChangedUser v-else-if="item.type === 'OCCURRENCE_CHANGED_USER'" :data="item" />
+            <!-- <TimelineItemTask v-else-if="item.type === 'TASK'" :data="item.data" @open-modal-task-new-edit="$emit('open-modal-task-new-edit')" /> -->
         </div>
     </div>
 </template>
 
 <script>
     export default {
+        props: {
+            occurrenceId: Number
+        },
         data() {
             return {
-                timeline: [
-                    {
-                         type: 'DEFAULT',
-                         data: {
-                             user: 'Fulano de Tal da Silva',
-                             event: 'REAGENDADO PARA 01/02/2022',
-                             description: 'Secretária atendeu e  informou que o responsável pelo financeiro está de folga.',
-                             date: '01/01/2021 10:21:23'
-                         }
-                    },
-                    {
-                         type: 'TASK',
-                         data: {
-                             task_id: 1,
-                             user: 'Fulano de Tal da Silva',
-                             event: 'LIGOU',
-                             description: 'Tentativa de ligação não obteve retorno. Tentarei ligar a tarde.',
-                             date: '01/01/2021 10:21:23'
-                         }
-                    },
-                ]
+                timeline: []
             }
         },
         mounted() {
-
+            this.getTimeline();
         },
         methods: {
+            getTimeline() {
+                axios.get(route('occurrences.timeline', { id: this.occurrenceId }))
+                    .then(res => {
+                        this.timeline = res.data.timeline;
+                    });
+            },
             componentName(type) {
                 switch (type) {
                     case 'DEFAULT':

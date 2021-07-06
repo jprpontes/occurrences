@@ -77,5 +77,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::put('/{id}/changestep', ['as' => 'changestep', 'uses' => 'OccurrenceController@changeStep']);
         Route::put('/{id}/changeresponsible', ['as' => 'changeresponsible', 'uses' => 'OccurrenceController@changeResponsible']);
         Route::put('/{id}/changeexpectation', ['as' => 'changeexpectation', 'uses' => 'OccurrenceController@changeExpectation']);
+        Route::get('/{id}/timeline', ['as' => 'timeline', 'uses' => 'OccurrenceController@timeline']);
     });
 });

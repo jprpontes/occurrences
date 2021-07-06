@@ -6,11 +6,11 @@
         </div>
         <div class="col d-flex flex-column ps-0 pe-0 me-3 py-3" style="border-bottom: 1px solid #e9ecef">
             <div class="d-flex align-items-center">
-                <span class="flex-fill fw-bold">{{ data.user }}</span>
-                <span class="fs-8">{{ data.date }}</span>
+                <span class="flex-fill fw-bold">{{ data.updatedBy ? data.updatedBy.name : 'BOT' }}</span>
+                <span class="fs-8">{{ formattedDate }}</span>
             </div>
             <span class="text-gray-600 fw-bold">{{ data.event }}</span>
-            <span>{{ data.description }}</span>
+            <span>{{ formattedDescription }}</span>
         </div>
     </div>
 </template>
@@ -20,8 +20,12 @@
         props: {
             data: Object
         },
-        data() {
-            return {
+        computed: {
+            formattedDescription() {
+                return 'Ocorrência criada.';
+            },
+            formattedDate() {
+                return moment(this.data.date).format('DD/MM/YYYY') + ' às ' + moment(this.data.date).format('HH:MM:SS');
             }
         },
         mounted() {

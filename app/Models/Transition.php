@@ -16,6 +16,7 @@ class Transition extends Model
         'user_id',
         'close_date',
         'doc_due_date',
+        'updated_by'
     ];
 
     protected $hidden = [
@@ -30,5 +31,15 @@ class Transition extends Model
     public function step()
     {
         return $this->belongsTo(Step::class);
+    }
+
+    public function occurrence()
+    {
+        return $this->belongsTo(Occurrence::class);
+    }
+
+    public function userWhoChanged()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
     }
 }
