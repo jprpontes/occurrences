@@ -69,6 +69,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/getstepsoptions', ['as' => 'getstepsoptions', 'uses' => 'WorkspaceController@getStepsOptions']);
     });
 
+    Route::group(['as' => 'tasks.', 'prefix' => 'tasks'], function () {
+        Route::get('/edit/{id}', ['as' => 'edit', 'uses' => 'TaskController@edit']);
+        Route::post('/', ['as' => 'store', 'uses' => 'TaskController@store']);
+        Route::put('/{id}', ['as' => 'update', 'uses' => 'TaskController@update']);
+        Route::get('/getactivities', ['as' => 'getactivities', 'uses' => 'TaskController@getActivities']);
+        Route::get('/getusers', ['as' => 'getusers', 'uses' => 'TaskController@getUsers']);
+    });
+
     Route::group(['as' => 'occurrences.', 'prefix' => 'occurrences'], function () {
         Route::get('/edit/{id}', ['as' => 'edit', 'uses' => 'OccurrenceController@edit']);
         Route::post('/{id}/toassume', ['as' => 'toassume', 'uses' => 'OccurrenceController@toAssume']);

@@ -7,6 +7,7 @@ use App\Models\Occurrence;
 use App\Models\Transition;
 use App\Models\User;
 use App\Models\Step;
+use App\Models\Task;
 use App\Http\Resources\OccurrenceEditResource;
 
 class OccurrenceController extends Controller
@@ -246,6 +247,19 @@ class OccurrenceController extends Controller
 
             $prevTransition = $transition;
         });
+
+        Task::where('occurrence_id', $id)
+            ->orderBy('created_at')
+            ->get()
+            ->each(function ($task) use (&$timeline) {
+                $timeline[] = [
+                    'type'      => 'TASK',
+                    'date'      => $task->created_at,
+                    'updatedBy' => $task->userWhoChanged()->select([ 'id', 'name' ])->first(),
+                    'taskId'    => $task->id,
+                    'activity'  => $task->activity()->select(['id', 'name'])->first()
+                ];
+            });
 
         usort($timeline, function ($a, $b) {
             return $b['date'] <=> $a['date'];

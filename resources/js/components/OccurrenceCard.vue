@@ -3,7 +3,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <span class="fs-7 fw-bold">CASA-BRUNO JAVIER AVILA O.</span>
+                    <span class="fs-7 fw-bold">{{ occurrence.title }}</span>
                 </div>
 
                 <div v-if="occurrence.transition.user" class="col-auto">
@@ -33,7 +33,7 @@
                 <div class="col">
                     <div class="row">
                         <div class="col-auto ps-0 lh-sm">
-                            <span class="fs-8">01/01/2022 00:00:00</span>
+                            <span class="fs-8">{{ dateFormat(occurrence.transition.doc_due_date) }}</span>
                         </div>
                     </div>
                     <div class="row">
@@ -50,8 +50,8 @@
             </div>
         </div>
 
-        <ModalOccurrenceInvoice v-if="modalOccurrenceShow" @modal-closed="modalOccurrenceClosed" @open-modal-task-new-edit="modalTaskNewEdit = true" :style="{'z-index': modalTaskNewEdit ? 1 : 1060}" :occurrence-id="occurrence.id" ref="modalOccurrenceInvoice" />
-        <ModalTaskNewEdit v-if="modalTaskNewEdit" @modal-closed="modalTaskNewEditClosed" />
+        <ModalOccurrenceInvoice v-if="modalOccurrenceShow" @modal-closed="modalOccurrenceClosed" @open-modal-task-new-edit="openModalTaskNewEdit" :style="{'z-index': modalTaskNewEdit ? 1 : 1060}" :occurrence-id="occurrence.id" ref="modalOccurrenceInvoice" />
+        <ModalTaskNewEdit v-if="modalTaskNewEdit" @modal-closed="modalTaskNewEditClosed" :occurrence-id="occurrence.id" :task-id="taskIdToEdit" :mode="taskIdToEdit ? 'EDIT' : 'NEW'" />
     </div>
 </template>
 
@@ -63,18 +63,32 @@
         data() {
             return {
                 modalOccurrenceShow: false,
-                modalTaskNewEdit: false
+                modalTaskNewEdit: false,
+                taskIdToEdit: null,
             }
         },
         mounted() {
-
+            Echo.channel('occurrences_occurrence')
+                .listen('.occurrence.stepchanged', (e) => {
+                    console.log('meu evento aqui 5');
+                });
         },
         methods: {
+            dateFormat(date) {
+                return moment(date).format('DD/MM/YYYY') + ' às ' + moment(date).format('HH:MM:SS');
+            },
+            openModalTaskNewEdit(event) {
+                if (event && event.taskId) {
+                    this.taskIdToEdit = event.taskId;
+                }
+                this.modalTaskNewEdit = true;
+            },
             modalOccurrenceClosed() {
                 this.modalOccurrenceShow = false;
             },
             modalTaskNewEditClosed() {
                 this.modalTaskNewEdit = false;
+                this.taskIdToEdit = null;
                 this.$refs.modalOccurrenceInvoice.$el.focus();
             }
         }

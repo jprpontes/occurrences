@@ -7,5 +7,6 @@ return [
         'steps.*',
         'usersteps.*',
         'workspaces.*',
+        'tasks.*'
     ]
 ];
