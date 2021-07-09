@@ -10,6 +10,7 @@ use App\Models\Step;
 use App\Models\Task;
 use App\Http\Resources\OccurrenceEditResource;
 use App\Events\OccurrenceStepChanged;
+use App\Events\OccurrenceResponsibleChanged;
 
 class OccurrenceController extends Controller
 {
@@ -161,6 +162,8 @@ class OccurrenceController extends Controller
 
         $lastTransition = Transition::where('occurrence_id', $occurrence->id)->latest()->first();
 
+        $oldResponsible = $lastTransition->user;
+
         $newResponsible = User::find($request->newResponsibleId);
 
         try {
@@ -184,6 +187,8 @@ class OccurrenceController extends Controller
             \DB::rollback();
             throw $th;
         }
+
+        event(new OccurrenceResponsibleChanged($occurrence, $oldResponsible, $newResponsible));
     }
 
     public function changeExpectation(Request $request, int $id)

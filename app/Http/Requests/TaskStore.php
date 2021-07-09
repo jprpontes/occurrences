@@ -11,7 +11,7 @@ class TaskStore extends FormRequest
         return [
             'occurrence_id' => 'required',
             'activity_id'   => 'required',
-            'date'          => 'required',
+            // 'date'          => 'required',
             'user_id'       => 'required',
         ];
     }

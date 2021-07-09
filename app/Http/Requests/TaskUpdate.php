@@ -10,7 +10,7 @@ class TaskUpdate extends FormRequest
     {
         return [
             'activity_id' => 'required',
-            'date'        => 'required',
+            // 'date'        => 'required',
             'user_id'     => 'required',
         ];
     }

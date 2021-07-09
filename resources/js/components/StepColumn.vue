@@ -33,16 +33,28 @@
                         });
                     }
                     if (this.step.id === e.newStepId) {
-                        this.getOccurrence(e.occurrenceId);
+                        this.getOccurrence(e.occurrenceId)
+                            .then(res => {
+                                this.occurrences.splice(0, 0, res.data.occurrence);
+                            });
                     }
+                });
+
+            Echo.channel('occurrences_occurrence')
+                .listen('.occurrence.responsiblechanged', (e) => {
+                    this.occurrences.forEach((element, index) => {
+                        if (element.id === e.occurrenceId) {
+                            this.getOccurrence(e.occurrenceId)
+                                .then(res => {
+                                    this.$set(this.occurrences, index, res.data.occurrence);
+                                });
+                        }
+                    });
                 });
         },
         methods: {
             getOccurrence(occurrenceId) {
-                axios.get(route('workspaces.getoccurrence', { id: occurrenceId }))
-                    .then(res => {
-                        this.occurrences.splice(0, 0, res.data.occurrence);
-                    });
+                return axios.get(route('workspaces.getoccurrence', { id: occurrenceId }));
             },
             paginateOucurrences() {
                 axios.get(route('workspaces.getoccurrences', { offset: this.occurrences.length, stepId: this.step.id }))

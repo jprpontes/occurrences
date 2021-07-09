@@ -3,7 +3,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Nova tarefa</h5>
+                    <h5 class="modal-title">{{ mode === 'NEW' ? 'Nova tarefa' : 'Alteração de tarefa' }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -16,11 +16,11 @@
                             <div class="invalid-feedback">{{ form.activity.message }}</div>
                         </div>
 
-                        <div class="col-12 mb-3">
+                        <!-- <div class="col-12 mb-3">
                             <label for="task-data" class="form-label">Data</label>
                             <input type="text" class="form-control" :class="{ 'is-invalid': !form.date.valid }" id="task-data" placeholder="__/__/____ __:__:__">
                             <div class="invalid-feedback">{{ form.date.message }}</div>
-                        </div>
+                        </div> -->
 
                         <div class="col-12 mb-3">
                             <label for="executor" class="form-label">Executor</label>
@@ -72,12 +72,12 @@
                         value: null,
                         valid: true,
                         message: ''
-                    },
+                    },/*
                     date: {
                         value: null,
                         valid: true,
                         message: ''
-                    },
+                    },*/
                     user: {
                         value: null,
                         valid: true,
@@ -118,9 +118,9 @@
                         this.users = res.data.users;
                     });
             },
-            taskDateChanged(event) {
-                this.form.date.value = event.date;
-            },
+            // taskDateChanged(event) {
+            //     this.form.date.value = event.date;
+            // },
             edit() {
                 axios.get(route('tasks.edit', { id: this.taskId }))
                     .then(res => {
@@ -171,7 +171,7 @@
                     });
             },
             update() {
-                axios.put(route('tasks.update', { id: this.taskId }), this.payloadToStore())
+                axios.put(route('tasks.update', { id: this.taskId }), this.payloadToUpdate())
                     .then(res => {
                         this.$emit('updated');
 
@@ -208,14 +208,14 @@
                     this.form.activity.message = '';
                 }
 
-                if (!this.form.date.value) {
-                    isValid = false;
-                    this.form.date.valid = false;
-                    this.form.date.message = 'Informe uma data.';
-                } else {
-                    this.form.date.valid = true;
-                    this.form.date.message = '';
-                }
+                // if (!this.form.date.value) {
+                //     isValid = false;
+                //     this.form.date.valid = false;
+                //     this.form.date.message = 'Informe uma data.';
+                // } else {
+                //     this.form.date.valid = true;
+                //     this.form.date.message = '';
+                // }
 
                 if (!this.form.user.value) {
                     isValid = false;
@@ -231,8 +231,8 @@
             formValidateReset() {
                 this.form.activity.valid = true;
                 this.form.activity.message = '';
-                this.form.date.valid = true;
-                this.form.date.message = '';
+                // this.form.date.valid = true;
+                // this.form.date.message = '';
                 this.form.user.valid = true;
                 this.form.user.message = '';
             },
@@ -240,7 +240,15 @@
                 return {
                     occurrence_id: this.occurrenceId,
                     activity_id: this.form.activity.value.id,
-                    date: this.form.date.value,
+                    // date: this.form.date.value,
+                    user_id: this.form.user.value.id,
+                    anotation: this.form.anotation.value,
+                }
+            },
+            payloadToUpdate() {
+                return {
+                    activity_id: this.form.activity.value.id,
+                    // date: this.form.date.value,
                     user_id: this.form.user.value.id,
                     anotation: this.form.anotation.value,
                 }
