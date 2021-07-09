@@ -15,4 +15,11 @@ class TaskStore extends FormRequest
             'user_id'       => 'required',
         ];
     }
+
+    public function prepareForValidation()
+    {
+        $data = $this->all();
+        $data['updated_by'] = auth()->user()->id;
+        $this->replace($data);
+    }
 }

@@ -16,7 +16,7 @@ class WorkspaceController extends Controller
 
     public function getSteps()
     {
-        $steps = Step::orderBy('id', 'desc')
+        $steps = Step::orderBy('id')
             ->whereExists(function ($query) {
                 $query->selectRaw(1)
                     ->from('user_steps')
@@ -86,7 +86,7 @@ class WorkspaceController extends Controller
 
     public function getStepsOptions()
     {
-        $steps = Step::orderBy('id', 'desc')
+        $steps = Step::orderBy('id')
             ->whereExists(function ($query) {
                 $query->selectRaw(1)
                     ->from('user_steps')

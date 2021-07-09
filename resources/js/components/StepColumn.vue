@@ -2,7 +2,7 @@
     <div class="card h-100">
         <div class="card-header d-flex flex-column">
             <span class="card-title m-0 fw-bold">{{ step.name }}</span>
-            <span class="card-text fs-8 text-gray-600">2 ocorrências</span>
+            <span class="card-text fs-8 text-gray-600">{{ occurrences.length }} ocorrências</span>
         </div>
 
         <div class="card-body p-2" style="overflow-y: auto">

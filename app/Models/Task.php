@@ -13,6 +13,7 @@ class Task extends Model
         'activity_id',
         'user_id',
         'anotation',
+        'updated_by'
     ];
 
     protected $hidden = [
