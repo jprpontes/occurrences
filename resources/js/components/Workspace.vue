@@ -23,6 +23,16 @@
                 <StepColumn :step="step" />
             </div>
         </div>
+
+        <ModalOccurrenceInvoice v-if="modalOccurrenceOptions.show"
+            :style="{'z-index': modalTaskNewEditOptions.show ? 1 : 1060}"
+            :occurrence-id="modalOccurrenceOptions.occurrenceId"
+            ref="modalOccurrenceInvoice" />
+
+        <ModalTaskNewEdit v-if="modalTaskNewEditOptions.show"
+            :occurrence-id="modalTaskNewEditOptions.occurrenceId"
+            :task-id="modalTaskNewEditOptions.taskId"
+            :mode="modalTaskNewEditOptions.taskId ? 'EDIT' : 'NEW'" />
     </div>
 </template>
 
@@ -30,18 +40,52 @@
     export default {
         data() {
             return {
-                steps: []
+                steps: [],
+                modalOccurrenceOptions: {
+                    show: false,
+                    occurrenceId: null
+                },
+                modalTaskNewEditOptions: {
+                    show: false,
+                    occurrenceId: null,
+                    taskId: null
+                }
             }
         },
         mounted() {
             this.getSteps();
 
-            Echo.channel('occurrences_occurrence')
-                .listen('.occurrence.stepchanged', (e) => {
-                    console.log('meu evento aqui 3');
-                });
+            this.$root.$on('open-modal-occurrence', (event) => {
+                this.modalOccurrenceOptions.occurrenceId = event.occurrenceId;
+                this.modalOccurrenceOptions.show = true;
+            })
+
+            this.$root.$on('modal-occurrence-closed', () => {
+                this.modalOccurrenceOptions.occurrenceId = null;
+                this.modalOccurrenceOptions.show = false;
+            })
+
+            this.$root.$on('open-modal-task-new-edit', (event) => {
+                if (event && event.taskId) {
+                    this.modalTaskNewEditOptions.taskId = event.taskId;
+                }
+                if (event && event.occurrenceId) {
+                    this.modalTaskNewEditOptions.occurrenceId = event.occurrenceId;
+                }
+                this.modalTaskNewEditOptions.show = true;
+            })
+
+            this.$root.$on('modal-task-new-edit-closed', () => {
+                this.modalTaskNewEditOptions.taskId = null;
+                this.modalTaskNewEditOptions.occurrenceId = null;
+                this.modalTaskNewEditOptions.show = false;
+                this.$refs.modalOccurrenceInvoice.$el.focus();
+            })
         },
         methods: {
+            modalOccurrenceClosed() {
+                this.modalOccurrenceOptions.show = false;
+            },
             getSteps() {
                 axios.get(route('workspaces.getsteps'))
                     .then(res => {

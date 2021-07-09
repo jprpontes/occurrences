@@ -67,6 +67,23 @@ class WorkspaceController extends Controller
         ]);
     }
 
+    public function getOccurrence(int $id)
+    {
+        $occurrence = Occurrence::whereId($id)
+            ->select(['id', 'title', 'person_id', 'contract_id', 'created_at'])
+            ->first()
+            ->load(['transitions' => function ($query) {
+                $query->where('transitions.isactive', true)
+                    ->with('user');
+            }]);
+
+        $occurrenceResource = OccurrenceCardResource::make($occurrence);
+
+        return response()->json([
+            'occurrence' => $occurrenceResource
+        ]);
+    }
+
     public function getStepsOptions()
     {
         $steps = Step::orderBy('id', 'desc')

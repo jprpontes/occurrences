@@ -24,13 +24,13 @@
                                 <h5>Histórico</h5>
                             </div>
                             <div class="col-auto">
-                                <button class="btn btn-outline-primary btn-sm btn-icon" @click="$emit('open-modal-task-new-edit')"><i class="mdi mdi-plus"></i>Nova tarefa</button>
+                                <button class="btn btn-outline-primary btn-sm btn-icon" @click="openModalTaskNewEdit"><i class="mdi mdi-plus"></i>Nova tarefa</button>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col">
-                                <TimelineOccurrence @open-modal-task-new-edit="$emit('open-modal-task-new-edit', $event)" :occurrence-id="occurrenceId" />
+                                <TimelineOccurrence :occurrence-id="occurrenceId" />
                             </div>
                         </div>
                     </div>
@@ -112,7 +112,7 @@
         },
         mounted() {
             $("#modal-occurrence-invoice").on('hidden.bs.modal', (event) => {
-                this.$emit('modal-closed');
+                this.$root.$emit('modal-occurrence-closed');
             })
 
             $("#modal-occurrence-invoice").modal('show');
@@ -132,6 +132,9 @@
             });
         },
         methods: {
+            openModalTaskNewEdit() {
+                this.$root.$emit('open-modal-task-new-edit', { occurrenceId: this.occurrenceId });
+            },
             expectationChanged(event) {
                 this.expectation = event.date;
                 axios.put(route('occurrences.changeexpectation', { id: this.occurrenceId }), { newExpectation: moment(this.expectation).format('YYYY-MM-DD') })

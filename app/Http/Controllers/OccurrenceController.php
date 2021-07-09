@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Step;
 use App\Models\Task;
 use App\Http\Resources\OccurrenceEditResource;
+use App\Events\OccurrenceStepChanged;
 
 class OccurrenceController extends Controller
 {
@@ -86,7 +87,9 @@ class OccurrenceController extends Controller
 
         $lastTransition = Transition::where('occurrence_id', $occurrence->id)->latest()->first();
 
-        $nextStep = Step::find($lastTransition->step_id)->nextStep()->select(['id', 'name'])->first();
+        $oldStep = $lastTransition->step;
+
+        $newStep = Step::find($lastTransition->step_id)->nextStep()->select(['id', 'name'])->first();
 
         try {
             \DB::beginTransaction();
@@ -96,7 +99,7 @@ class OccurrenceController extends Controller
 
             Transition::create([
                 'occurrence_id' => $lastTransition->occurrence_id,
-                'step_id'       => $nextStep->id,
+                'step_id'       => $newStep->id,
                 'wasapproved'   => $lastTransition->wasapproved,
                 'doc_due_date'  => $lastTransition->doc_due_date,
                 'isactive'      => true,
@@ -110,8 +113,10 @@ class OccurrenceController extends Controller
             throw $th;
         }
 
+        event(new OccurrenceStepChanged($occurrence, $oldStep, $newStep));
+
         return response()->json([
-            'newStep' => $nextStep
+            'newStep' => $newStep
         ]);
     }
 
@@ -120,6 +125,8 @@ class OccurrenceController extends Controller
         $occurrence = Occurrence::find($id);
 
         $lastTransition = Transition::where('occurrence_id', $occurrence->id)->latest()->first();
+
+        $oldStep = $lastTransition->step;
 
         $newStep = Step::find($request->newStepId);
 
@@ -144,6 +151,8 @@ class OccurrenceController extends Controller
             \DB::rollback();
             throw $th;
         }
+
+        event(new OccurrenceStepChanged($occurrence, $oldStep, $newStep));
     }
 
     public function changeResponsible(Request $request, int $id)

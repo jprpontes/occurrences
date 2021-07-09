@@ -4,7 +4,7 @@
             <TimelineItemOccurrenceCreated v-if="item.type === 'OCCURRENCE_CREATED'" :data="item" />
             <TimelineItemOccurrenceChangedStep v-else-if="item.type === 'OCCURRENCE_CHANGED_STEP'" :data="item" />
             <TimelineItemOccurrenceChangedUser v-else-if="item.type === 'OCCURRENCE_CHANGED_USER'" :data="item" />
-            <TimelineItemTask v-else-if="item.type === 'TASK'" :data="item" @open-modal-task-new-edit="$emit('open-modal-task-new-edit', $event)" />
+            <TimelineItemTask v-else-if="item.type === 'TASK'" :data="item" />
         </div>
     </div>
 </template>

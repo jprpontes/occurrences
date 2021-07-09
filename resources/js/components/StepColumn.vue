@@ -24,8 +24,26 @@
         },
         mounted() {
             this.paginateOucurrences();
+
+            Echo.channel('occurrences_occurrence')
+                .listen('.occurrence.stepchanged', (e) => {
+                    if (this.step.id === e.oldStepId) {
+                        this.occurrences = this.occurrences.filter((item) => {
+                            return item.id !== e.occurrenceId;
+                        });
+                    }
+                    if (this.step.id === e.newStepId) {
+                        this.getOccurrence(e.occurrenceId);
+                    }
+                });
         },
         methods: {
+            getOccurrence(occurrenceId) {
+                axios.get(route('workspaces.getoccurrence', { id: occurrenceId }))
+                    .then(res => {
+                        this.occurrences.splice(0, 0, res.data.occurrence);
+                    });
+            },
             paginateOucurrences() {
                 axios.get(route('workspaces.getoccurrences', { offset: this.occurrences.length, stepId: this.step.id }))
                     .then(res => {

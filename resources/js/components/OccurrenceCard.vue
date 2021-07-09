@@ -1,5 +1,5 @@
 <template>
-    <div class="card card-hover shadow-sm" @click="modalOccurrenceShow = true">
+    <div class="card card-hover shadow-sm" @click="openModalOccurrence">
         <div class="card-body">
             <div class="row">
                 <div class="col">
@@ -49,9 +49,6 @@
                 </div>
             </div>
         </div>
-
-        <ModalOccurrenceInvoice v-if="modalOccurrenceShow" @modal-closed="modalOccurrenceClosed" @open-modal-task-new-edit="openModalTaskNewEdit" :style="{'z-index': modalTaskNewEdit ? 1 : 1060}" :occurrence-id="occurrence.id" ref="modalOccurrenceInvoice" />
-        <ModalTaskNewEdit v-if="modalTaskNewEdit" @modal-closed="modalTaskNewEditClosed" :occurrence-id="occurrence.id" :task-id="taskIdToEdit" :mode="taskIdToEdit ? 'EDIT' : 'NEW'" />
     </div>
 </template>
 
@@ -60,36 +57,14 @@
         props: {
             occurrence: Object
         },
-        data() {
-            return {
-                modalOccurrenceShow: false,
-                modalTaskNewEdit: false,
-                taskIdToEdit: null,
-            }
-        },
-        mounted() {
-            Echo.channel('occurrences_occurrence')
-                .listen('.occurrence.stepchanged', (e) => {
-                    console.log('meu evento aqui 5');
-                });
-        },
         methods: {
+            openModalOccurrence() {
+                this.$root.$emit('open-modal-occurrence', {
+                    occurrenceId: this.occurrence.id
+                });
+            },
             dateFormat(date) {
                 return moment(date).format('DD/MM/YYYY') + ' às ' + moment(date).format('HH:MM:SS');
-            },
-            openModalTaskNewEdit(event) {
-                if (event && event.taskId) {
-                    this.taskIdToEdit = event.taskId;
-                }
-                this.modalTaskNewEdit = true;
-            },
-            modalOccurrenceClosed() {
-                this.modalOccurrenceShow = false;
-            },
-            modalTaskNewEditClosed() {
-                this.modalTaskNewEdit = false;
-                this.taskIdToEdit = null;
-                this.$refs.modalOccurrenceInvoice.$el.focus();
             }
         }
     }

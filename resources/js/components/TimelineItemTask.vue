@@ -12,7 +12,7 @@
             <span class="text-gray-600 fw-bold">{{ data.event }}</span>
             <span>Nova tarefa criada.</span>
             <div class="d-flex">
-                <button class="btn btn-outline-primary btn-sm btn-icon mt-3" @click="$emit('open-modal-task-new-edit', { taskId: data.taskId })"><i class="mdi mdi-pencil"></i>Editar</button>
+                <button class="btn btn-outline-primary btn-sm btn-icon mt-3" @click="openModalTaskNewEdit"><i class="mdi mdi-pencil"></i>Editar</button>
             </div>
         </div>
     </div>
@@ -34,5 +34,10 @@
         mounted() {
 
         },
+        methods: {
+            openModalTaskNewEdit() {
+                this.$root.$emit('open-modal-task-new-edit', { taskId: this.data.taskId });
+            }
+        }
     }
 </script>

@@ -93,7 +93,7 @@
         },
         mounted() {
             $("#modal-task-new-edit").on('hidden.bs.modal', (event) => {
-                this.$emit('modal-closed');
+                this.$root.$emit('modal-task-new-edit-closed');
             })
 
             $("#modal-task-new-edit").modal('show');
