@@ -38,14 +38,14 @@
                         <div class="row">
                             <div class="col-12">
                                 <label for="step" class="form-label mb-0 mt-2">Etapa</label>
-                                <select class="form-select" id="step" v-model="step" @change="stepChange">
+                                <select :class="{ 'form-select': $hasRole('admin'), 'form-control': !$hasRole('admin') }" id="step" v-model="step" @change="stepChange" :disabled="!$hasRole('admin')">
                                     <option v-for="stepsOption in stepsOptions" :value="stepsOption" :key="stepsOption.id">{{ stepsOption.name }}</option>
                                 </select>
                             </div>
 
                             <div class="col-12">
                                 <label for="responsible" class="form-label mb-0 mt-2">Responsável</label>
-                                <ResponsibleInput :responsible="responsible" @responsible-changed="responsibleChanged" />
+                                <ResponsibleInput :responsible="responsible" @responsible-changed="responsibleChanged" :disabled="!$hasRole('admin')" />
                             </div>
 
                             <div class="col-12">

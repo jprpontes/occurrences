@@ -17,9 +17,11 @@
 
     <script>
         @auth
-            window.Roles = {!! json_encode(Auth::user()->allRoles->toArray(), true) !!};
+            window.Roles = {!! json_encode(Auth::user()->allRoles()->toArray(), true) !!};
+            window.User = {!! json_encode(Auth::user()->dataToClient(), true) !!};
         @else
             window.Roles = [];
+            window.User = null;
         @endauth
     </script>
 

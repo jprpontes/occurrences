@@ -1,6 +1,6 @@
 <template>
     <div class="dropdown">
-        <div class="form-select" data-bs-toggle="dropdown">
+        <div :class="{ 'form-select': !disabled, 'form-control': disabled, 'disabled': disabled }" data-bs-toggle="dropdown" :disabled="disabled">
             <div class="d-flex align-items-center" v-if="responsible">
                 <Avatar :username="responsible.name" :size="23" class="bg-gray-200 border-gray-600 text-gray-600 border" />
                 <span class="ms-2">{{ responsible.name }}</span>
@@ -31,7 +31,8 @@
 <script>
     export default {
         props: {
-            responsible: Object
+            responsible: Object,
+            disabled: Boolean
         },
         data() {
             return {

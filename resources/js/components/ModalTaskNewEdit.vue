@@ -24,7 +24,7 @@
 
                         <div class="col-12 mb-3">
                             <label for="executor" class="form-label">Executor</label>
-                            <select type="text" class="form-select" :class="{ 'is-invalid': !form.user.valid }" id="executor" v-model="form.user.value">
+                            <select type="text" class="form-select" :class="{ 'form-select': $hasRole('admin'), 'form-control': !$hasRole('admin'), 'is-invalid': !form.user.valid }" id="executor" v-model="form.user.value" :disabled="!$hasRole('admin')">
                                 <option v-for="user in users" :key="user.id" :value="user">{{ user.name }}</option>
                             </select>
                             <div class="invalid-feedback">{{ form.user.message }}</div>
@@ -79,7 +79,10 @@
                         message: ''
                     },*/
                     user: {
-                        value: null,
+                        value: {
+                            id: User.id,
+                            name: User.name
+                        },
                         valid: true,
                         message: ''
                     },

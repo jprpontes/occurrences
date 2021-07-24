@@ -28,8 +28,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getAllRolesAttribute()
+    public function allRoles()
     {
         return $this->roles()->pluck('name');
+    }
+
+    public function dataToClient()
+    {
+        return [
+            'id'    => $this->id,
+            'name'  => $this->name,
+            'email' => $this->email
+        ];
     }
 }
