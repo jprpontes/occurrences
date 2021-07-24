@@ -15,6 +15,14 @@
     <script src="{{ asset('js/bootstrap-datepicker.min.js') }}" defer></script>
     <script src="{{ asset('js/bootstrap-datepicker.pt-BR.min.js') }}" defer></script>
 
+    <script>
+        @auth
+            window.Roles = {!! json_encode(Auth::user()->allRoles->toArray(), true) !!};
+        @else
+            window.Roles = [];
+        @endauth
+    </script>
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">

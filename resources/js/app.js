@@ -8,6 +8,9 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import Roles from './mixins/Roles';
+Vue.mixin(Roles);
+
 /**
  * Sweet Alert 2
  */
