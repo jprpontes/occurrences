@@ -26,7 +26,9 @@
 <script>
     export default {
         props: {
-            step: Object
+            stepId: Number,
+            step: Object,
+            prevNext: 'PREV' // PREV | NEXT
         },
         data() {
             return {
@@ -42,7 +44,7 @@
                 this.$emit('step-changed', { step: selectedStep });
             },
             searchSteps() {
-                axios.get(route('steps.getstepstoprevnext', { search: this.search }))
+                axios.get(route('steps.getstepstoprevnext', { search: this.search, prevNext: this.prevNext, stepId: this.stepId }))
                     .then(res => {
                         this.steps = res.data.steps;
                     })

@@ -39,13 +39,13 @@
 
                         <div class="col-12 mb-3">
                             <label for="prev-step" class="form-label">Etapa Anterior</label>
-                            <StepInput id="prev-step" :step="form.prevStep.value" @step-changed="prevStepChanged" />
+                            <StepInput id="prev-step" :step="form.prevStep.value" prevNext="PREV" :stepId="stepId" @step-changed="prevStepChanged" />
                             <div class="invalid-feedback">{{ form.prevStep.message }}</div>
                         </div>
 
                         <div class="col-12">
                             <label for="next-step" class="form-label">Etapa Seguinte</label>
-                            <StepInput id="next-step" :step="form.nextStep.value" @step-changed="nextStepChanged" />
+                            <StepInput id="next-step" :step="form.nextStep.value" prevNext="NEXT" :stepId="stepId" @step-changed="nextStepChanged" />
                             <div class="invalid-feedback">{{ form.nextStep.message }}</div>
                         </div>
                     </div>

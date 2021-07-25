@@ -8,7 +8,7 @@
                         <input type="text" class="form-control" placeholder="Busque por código, nome da pessoa ou do contrato.">
                     </div>
                 </div>
-                <div class="col-12 col-md-4">
+                <div class="col-12 col-md-4" v-if="$hasRole('admin')">
                     <div class="input-group mb-3">
                         <span class="input-group-text"><i class="mdi mdi-account-group"></i></span>
                         <select class="form-select">

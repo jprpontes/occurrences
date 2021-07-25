@@ -2,7 +2,10 @@
     <div class="card h-100">
         <div class="card-header d-flex flex-column">
             <span class="card-title m-0 fw-bold">{{ step.name }}</span>
-            <span class="card-text fs-8 text-gray-600">{{ occurrences.length }} ocorrências</span>
+            <div class="d-flex">
+                <span class="card-text fs-8 text-gray-600">{{ occurrences.length }} ocorrências</span>
+                <span class="card-text fs-8 text-gray-600 ms-3"><i class="mdi mdi-family-tree" style="font-size: 13px !important;"></i> {{ step.sector.name }}</span>
+            </div>
         </div>
 
         <div class="card-body p-2" style="overflow-y: auto">

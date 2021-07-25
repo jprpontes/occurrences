@@ -111,13 +111,22 @@ class StepController extends Controller
     public function getStepsToPrevNext()
     {
         $limit = 15;
-        $steps = Step::limit($limit)
+        $steps = \DB::table(\DB::raw('steps as st1'))
+            ->limit($limit)
+            ->whereNotExists(function ($query) {
+                $query->from(\DB::raw('steps as st2'))
+                    ->whereRaw((request()->prevNext == 'PREV' ? 'st2.prev_step' : 'st2.next_step') . ' = st1.id');
+            })
             ->select(['id', 'name']);
 
         if (request()->search) {
             $steps = $steps->where(function ($query) {
                 $query->whereRaw("LOWER(name) like '%".strtolower(request()->search)."%'");
             });
+        }
+
+        if (request()->stepId) {
+            $steps = $steps->where('id', '<>', request()->stepId);
         }
 
         $steps = $steps->get();

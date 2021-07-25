@@ -23,12 +23,15 @@ class WorkspaceController extends Controller
                     ->whereRaw('user_steps.step_id = steps.id')
                     ->where('user_steps.user_id', auth()->user()->id);
             })
-            ->select(['id', 'name', 'sector_id', 'created_at']);
+            ->select(['id', 'name', 'sector_id', 'created_at'])
+            ->with(['sector' => function ($query) {
+                $query->select('id', 'name');
+            }]);
 
         $steps = $steps->get();
 
         return response()->json([
-            'steps'   => $steps
+            'steps' => $steps
         ]);
     }
 
