@@ -20,9 +20,7 @@ class StepController extends Controller
     {
         $limit = 15;
         $steps = Step::orderBy('id', 'desc')
-            ->offset(request()->offset ?? 0)
-            ->limit($limit)
-            ->select(['id', 'name', 'sector_id', 'created_at'])
+            ->select(['id', 'name', 'prev_step', 'next_step', 'sector_id', 'created_at'])
             ->with(['sector' => function ($query) {
                 $query->select(['id', 'name']);
             }]);
@@ -33,12 +31,32 @@ class StepController extends Controller
             });
         }
 
-        $steps = $steps->get();
+        $allSteps = $steps->get();
+
+        $firstStep = $steps->whereNull('prev_step')->first();
+
+        if ($firstStep) {
+            $allSteps = $this->buildSteps($firstStep->id, $allSteps);
+        }
 
         return response()->json([
-            'verMais' => count($steps) === $limit ? 1 : 0,
-            'steps'   => $steps
+            'steps'   => $allSteps
         ]);
+    }
+
+    private function buildSteps($stepId, $steps)
+    {
+        $ret = [];
+        $steps->each(function ($item) use ($steps, $stepId, &$nextStep, &$ret) {
+            if ($item->id === $stepId) {
+                $ret[] = $item;
+                if ($item->next_step) {
+                    $ret = array_merge($ret, $this->buildSteps($item->next_step, $steps));
+                }
+                return false;
+            }
+        });
+        return $ret;
     }
 
     public function create()
