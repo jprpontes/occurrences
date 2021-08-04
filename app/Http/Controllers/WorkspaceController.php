@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Step;
 use App\Models\Occurrence;
+use App\Models\Sector;
 use App\Http\Resources\OccurrenceCardResource;
 
 class WorkspaceController extends Controller
@@ -31,12 +32,14 @@ class WorkspaceController extends Controller
 
         $firstStep = $steps->whereNull('prev_step')->first();
 
-        $allSteps = $this->buildSteps($firstStep->id, $allSteps);
+        if ($firstStep) {
+            $allSteps = $this->buildSteps($firstStep->id, $allSteps);
+        }
 
         $filteredSteps = [];
 
         foreach ($allSteps as $key => $value) {
-            if ($value->can) {
+            if ($value->can && ((request()->sectorId && $value->sector_id == request()->sectorId) || !request()->sectorId)) {
                 $filteredSteps[] = $value;
             }
         }
@@ -128,6 +131,18 @@ class WorkspaceController extends Controller
 
         return response()->json([
             'steps'   => $steps
+        ]);
+    }
+
+    public function getSectorsOptions()
+    {
+        $sectors = Sector::orderBy('id')
+            ->select(['id', 'name']);
+
+        $sectors = $sectors->get();
+
+        return response()->json([
+            'sectors' => $sectors
         ]);
     }
 }

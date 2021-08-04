@@ -68,6 +68,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/getoccurrences', ['as' => 'getoccurrences', 'uses' => 'WorkspaceController@getOccurrences']);
         Route::get('/getoccurrence/{id}', ['as' => 'getoccurrence', 'uses' => 'WorkspaceController@getOccurrence']);
         Route::get('/getstepsoptions', ['as' => 'getstepsoptions', 'uses' => 'WorkspaceController@getStepsOptions']);
+        Route::get('/getsectorsoptions', ['as' => 'getsectorsoptions', 'uses' => 'WorkspaceController@getSectorsOptions']);
     });
 
     Route::group(['as' => 'tasks.', 'prefix' => 'tasks'], function () {
