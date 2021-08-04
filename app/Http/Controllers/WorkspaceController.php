@@ -16,23 +16,49 @@ class WorkspaceController extends Controller
 
     public function getSteps()
     {
+        $sub = \DB::table('user_steps')
+            ->whereRaw('user_steps.step_id = steps.id')
+            ->whereRaw('user_steps.user_id = '.auth()->user()->id)
+            ->selectRaw('count(*)');
+
         $steps = Step::orderBy('id')
-            ->whereExists(function ($query) {
-                $query->selectRaw(1)
-                    ->from('user_steps')
-                    ->whereRaw('user_steps.step_id = steps.id')
-                    ->where('user_steps.user_id', auth()->user()->id);
-            })
-            ->select(['id', 'name', 'sector_id', 'created_at'])
+            ->select(['id', 'name', 'prev_step', 'next_step', 'sector_id', 'created_at', \DB::raw("({$sub->toSql()}) as can")])
             ->with(['sector' => function ($query) {
                 $query->select('id', 'name');
             }]);
 
-        $steps = $steps->get();
+        $allSteps = $steps->get();
+
+        $firstStep = $steps->whereNull('prev_step')->first();
+
+        $allSteps = $this->buildSteps($firstStep->id, $allSteps);
+
+        $filteredSteps = [];
+
+        foreach ($allSteps as $key => $value) {
+            if ($value->can) {
+                $filteredSteps[] = $value;
+            }
+        }
 
         return response()->json([
-            'steps' => $steps
+            'steps' => $filteredSteps
         ]);
+    }
+
+    private function buildSteps($stepId, $steps)
+    {
+        $ret = [];
+        $steps->each(function ($item) use ($steps, $stepId, &$nextStep, &$ret) {
+            if ($item->id === $stepId) {
+                $ret[] = $item;
+                if ($item->next_step) {
+                    $ret = array_merge($ret, $this->buildSteps($item->next_step, $steps));
+                }
+                return false;
+            }
+        });
+        return $ret;
     }
 
     public function getOccurrences()
